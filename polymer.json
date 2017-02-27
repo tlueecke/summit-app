@@ -2,10 +2,10 @@
   "entrypoint": "index.html",
   "shell": "src/summit-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/days-page.html",
+    "src/time-schedule-page.html",
+    "src/pick-stream-page.html",
+    "src/404-page.html"
   ],
   "sourceGlobs": [
     "src/**/*",
