@@ -1,1 +1,1 @@
-# summit-app
+# apps-evolve-summit-2017
