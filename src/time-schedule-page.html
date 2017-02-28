@@ -1,27 +1,170 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+
 <link rel="import" href="shared-styles.html">
+
+<link rel="import" href="components/event-data.html">
 
 <dom-module id="summit-time-schedule">
   <template>
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
       }
+
+      iron-list {
+        --iron-list-items-container: {
+          max-width: 800px;
+          margin: auto;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          border-bottom: 1px solid #ddd;
+        };
+      }
+      .item {
+        @apply(--layout-horizontal);
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      .avatar {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+        box-sizing: border-box;
+        background-color: #DDD;
+      }
+      .pad {
+        padding: 0 16px;
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+      }
+      .primary {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .shortText, .longText {
+        font-size: 14px;
+      }
+      .longText {
+        color: gray;
+        display: none;
+      }
+      .item:hover .shortText::after {
+        content: ' [+]';
+        color: gray;
+      }
+      .item.expanded:hover .shortText::after {
+        content: '';
+      }
+      .item.expanded .longText {
+        display: block;
+      }
+      .item.expanded:hover .longText::after {
+        content: ' [–]';
+      }
+
+
+
     </style>
 
-    <div class="card">
-      <div class="circle">2</div>
-      <h1>View Two</h1>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-      <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
-    </div>
+    <summit-event-data event-data="{{eventData}}" failure="{{failure}}" ></summit-event-data>
+
+
+    <iron-list id="list" items="[[_getTimeSlots(eventData, 1)]]" as="item" selection-enabled multi-selection>
+       <template>
+         <div>
+           <div class$="[[_getClassForItem(item, selected)]]" tabindex$="[[tabIndex]]">
+
+             <div class="avatar"></div>
+
+             <div class="pad">
+               <div class="primary">[[item.name]]</div>
+
+               <template is="dom-if" if="{{!_hasLongDescription(item)}}">
+                 <div class="shortTextOnly">[[_getShortDescription(item)]]</div>
+               </template>
+
+               <template is="dom-if" if="{{_hasLongDescription(item)}}">
+                 <template is="dom-if" if="{{!selected}}">
+                   <div class="shortText">[[_getShortDescription(item)]]</div>
+                 </template>
+
+                <div class="longText">[[item.description]]</div>
+              </template>
+
+             </div>
+           </div>
+         </div>
+       </template>
+    </iron-list>
+
+
   </template>
 
   <script>
-    Polymer({
-      is: 'summit-time-schedule',
-    });
+
+    (function() {
+
+      var SHORT_DESC_MAX = 50;
+
+      Polymer({
+        is: 'summit-time-schedule',
+
+        properties: {
+          eventData: {
+            value: {},
+            type: Object
+          },
+          failure: Boolean
+        },
+        // needed for iron-list
+        attached: function() {
+          // Use the document element
+          this.$.list.scrollTarget = this.ownerDocument.documentElement;
+        },
+
+        _getTimeSlots: function(eventData, dayId, streamId) {
+          if (!eventData.timeSlots) {
+            return [];
+          }
+          return eventData.timeSlots
+            .filter(function(timeSlot) {
+              return timeSlot.onDay === dayId;
+            })
+            .filter(function(timeSlot) {
+                if (streamId) {
+                  return timeSlot.stream === streamId;
+                }
+                return !timeSlot.stream;
+            });
+        },
+
+        _getClassForItem: function(item, selected) {
+          return selected ? 'item expanded' : 'item';
+        },
+
+        _getShortDescription: function(timeSlot) {
+          if (!timeSlot.description){
+            return "";
+          }
+          var suffix = this._hasLongDescription(timeSlot) ? '...' : '';
+          return timeSlot.description.substring(0, SHORT_DESC_MAX) + suffix;
+        },
+
+        _hasLongDescription: function(timeSlot) {
+          if (!timeSlot.description){
+            return false;
+          }
+          return timeSlot.description.length > SHORT_DESC_MAX;
+        },
+
+      });
+    })();
   </script>
 </dom-module>

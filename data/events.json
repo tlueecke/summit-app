@@ -23,11 +23,65 @@
     "id": 1,
     "onDay": 1,
     "startTime": "9:30",
-    "endTime": "10:30",
-    "name": "",
-    "description": "",
+    "endTime": "10:00",
+    "name": "Registration",
+    "description": "Please register at reception desk",
+    "labels": [4],
+    "stream": null
+  },{
+    "id": 2,
+    "onDay": 1,
+    "startTime": "10:00",
+    "endTime": "10:15",
+    "name": "Greeting",
+    "description": "Hello world",
     "labels": [1],
-    "stream": [1]
+    "stream": null
+  },{
+    "id": 3,
+    "onDay": 1,
+    "startTime": "10:15",
+    "endTime": "10:45",
+    "name": "CG-Architects Go Inside Out",
+    "description": "?",
+    "labels": [1],
+    "stream": null
+  },{
+    "id": 4,
+    "onDay": 1,
+    "startTime": "10:45",
+    "endTime": "12:15",
+    "name": "Stream Session",
+    "description": "Please pick your stream to see the proper lecture here",
+    "labels": [1],
+    "stream": null
+  },{
+    "id": 5,
+    "onDay": 1,
+    "startTime": "10:45",
+    "endTime": "12:15",
+    "name": "Web innovation Stream",
+    "description": "Sample lecture from Web Innovation Stream",
+    "labels": [1],
+    "stream": 1
+  },{
+    "id": 6,
+    "onDay": 1,
+    "startTime": "10:45",
+    "endTime": "12:15",
+    "name": "Cloud Stream",
+    "description": "Sample lecture from Cloud Stream",
+    "labels": [1],
+    "stream": 2
+  },{
+    "id": 7,
+    "onDay": 1,
+    "startTime": "12:15",
+    "endTime": "13:00",
+    "name": "Lunch",
+    "description": "Enjoy your meal",
+    "labels": [5],
+    "stream": null
   }],
 
   "labels": [{
@@ -41,6 +95,9 @@
     "name": "FREE_TIME"
   }, {
     "id": 4,
+    "name": "ORGANIZATIONAL"
+  }, {
+    "id": 5,
     "name": "FOOD"
   }],
 

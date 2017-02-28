@@ -11,15 +11,14 @@
     <style include="shared-styles iron-flex iron-flex-alignment">
       :host {
         display: block;
-
         padding: 10px;
       }
       :host ul {
         padding: 0px;
         margin: 0px;
       }
-      :host .card {
-        margin: 0px;
+      :host ul li {
+        list-style-type: none;
       }
 
       :host .day-1.circle {
@@ -33,9 +32,9 @@
       }
     </style>
 
-    <summit-event-data event-data="{{eventData}}" ></summit-event-data>
+    <summit-event-data event-data="{{eventData}}" failure="{{failure}}"></summit-event-data>
 
-    <ul class="grid">
+    <ul>
       <template is="dom-repeat" items="[[_getDays(eventData)]]" initial-count="1">
         <li>
           <div class="card">
@@ -46,7 +45,7 @@
               </div>
 
               <div class="flex layout horizontal center end-justified">
-                <div class="circle" class$="[[_dayAvatarClasses(item.id)]]"></div>
+                <div class$="[[_dayAvatarClasses(item.id)]]"></div>
               </div>
             </div>
 
@@ -74,8 +73,8 @@
         failure: Boolean
       },
 
+
       _getDays: function(eventData) {
-        console.log('_getDays');
         return eventData.days || [];
       },
       _dayAvatarClasses: function(id) {
