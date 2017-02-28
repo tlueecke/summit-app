@@ -2,10 +2,10 @@
 
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <link rel="import" href="shared-styles.html">
 
-<link rel="import" href="components/event-data.html">
 
 <dom-module id="summit-time-schedule">
   <template>
@@ -73,7 +73,7 @@
 
     </style>
 
-    <summit-event-data event-data="{{eventData}}" failure="{{failure}}" ></summit-event-data>
+    <iron-ajax url="/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
 
 
     <iron-list id="list" items="[[_getTimeSlots(eventData, 1)]]" as="item" selection-enabled multi-selection>
@@ -120,8 +120,7 @@
           eventData: {
             value: {},
             type: Object
-          },
-          failure: Boolean
+          }
         },
         // needed for iron-list
         attached: function() {
