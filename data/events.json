@@ -1,0 +1,54 @@
+{
+  "days": [{
+    "id": 1,
+    "name": "Day 1",
+    "date": "23-03-2017",
+    "dayOfWeek": "Thursday",
+    "description": "Welcome day with preliminary lectures and initial stream specific discussions. Proposal: Maybe some description here to sum up the main day events. We can also add tabs here to show description or e.g. currently ongoing session and 2 next ones."
+  },{
+    "id": 2,
+    "name": "Day 2",
+    "date": "24-03-2017",
+    "dayOfWeek": "Friday",
+    "description": "Proposal: Maybe some description here to sum up the main day events. We can also add tabs here to show description or e.g. currently ongoing session and 2 next ones."
+  },{
+    "id": 3,
+    "name": "Day 3",
+    "date": "25-03-2017",
+    "dayOfWeek": "Saturday",
+    "description": "Proposal: Maybe some description here to sum up the main day events. We can also add tabs here to show description or e.g. currently ongoing session and 2 next ones."
+  }],
+
+  "timeSlots": [{
+    "id": 1,
+    "onDay": 1,
+    "startTime": "9:30",
+    "endTime": "10:30",
+    "name": "",
+    "description": "",
+    "labels": [1],
+    "stream": [1]
+  }],
+
+  "labels": [{
+    "id": 1,
+    "name": "LECTURE"
+  }, {
+    "id": 2,
+    "name": "BREAK"
+  }, {
+    "id": 3,
+    "name": "FREE_TIME"
+  }, {
+    "id": 4,
+    "name": "FOOD"
+  }],
+
+  "streams": [{
+    "id": 1,
+    "name": "Web Innovation"
+  }, {
+    "id": 2,
+    "name": "Cloud"
+  }]
+}
