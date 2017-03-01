@@ -171,14 +171,50 @@
           if (!eventData.timeSlots) {
             return [];
           }
-          return eventData.timeSlots
+
+          function startTimeComparator(ts1, ts2){
+            var hour1 = ts1.startTime.split(':').map(function(str){return +str}),
+                hour2 = ts2.startTime.split(':').map(function(str){return +str});
+            return hour1[0]+hour1[1]/60 > hour2[0]+hour2[1]/60;
+          }
+
+          function generateMissingLectures(sortedTsByDayAndStream){
+            var missingSlots = [],
+                currentSlot, nextSlot;
+
+            for (var i=0; i<tsByDayAndStream.length-1; i++) {
+                currentSlot = tsByDayAndStream[i],
+                nextSlot = tsByDayAndStream[i+1];
+
+                if (currentSlot.endTime !== nextSlot.startTime) {
+                  missingSlots.push({
+                    onDay: profile.day,
+                    name: "Stream Session",
+                    description: "Please pick your stream to see the proper lecture here",
+                    startTime: currentSlot.endTime,
+                    endTime:nextSlot.startTime,
+                    labels: [1],
+                    stream: null
+                  });
+                }
+            }
+            return missingSlots;
+          }
+
+
+          var tsByDayAndStream = eventData.timeSlots
             .filter(function(timeSlot) {
               return timeSlot.onDay === profile.day;
             })
             .filter(function(timeSlot) {
                 return !timeSlot.stream || timeSlot.stream === profile.stream;
-            });
+            }).sort(startTimeComparator),
+            missingSlots = generateMissingLectures(tsByDayAndStream);
+
+            return tsByDayAndStream.concat(missingSlots)
+              .sort(startTimeComparator);
         },
+
 
 
         ////////////////////////////////////////////////////

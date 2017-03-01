@@ -51,21 +51,12 @@
     "onDay": 1,
     "startTime": "10:45",
     "endTime": "12:15",
-    "name": "Stream Session",
-    "description": "Please pick your stream to see the proper lecture here",
-    "labels": [1],
-    "stream": null
-  },{
-    "id": 5,
-    "onDay": 1,
-    "startTime": "10:45",
-    "endTime": "12:15",
     "name": "Web innovation Stream",
     "description": "Sample lecture from Web Innovation Stream",
     "labels": [1],
     "stream": 1
   },{
-    "id": 6,
+    "id": 5,
     "onDay": 1,
     "startTime": "10:45",
     "endTime": "12:15",
@@ -74,7 +65,7 @@
     "labels": [1],
     "stream": 2
   },{
-    "id": 7,
+    "id": 6,
     "onDay": 1,
     "startTime": "12:15",
     "endTime": "13:00",
