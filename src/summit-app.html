@@ -20,10 +20,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
 <link rel="import" href="my-icons.html">
+
+<link rel="import" href="components/user-profile.html">
 
 <dom-module id="summit-app">
   <template>
@@ -97,6 +100,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
+        <iron-ajax url="/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
+        <user-profile id="profile" current-profile="{{userProfile}}" ></user-profile>
+
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
@@ -110,9 +116,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           attr-for-selected="name"
           fallback-selection="404"
           role="main">
-          <summit-days name="days"></summit-days>
-          <summit-time-schedule name="time-schedule"></summit-time-schedule>
-          <summit-pick-stream name="pick-stream"></summit-pick-stream>
+          <summit-days name="days" event-data="[[eventData]]"></summit-days>
+          <summit-time-schedule name="time-schedule" event-data="[[eventData]]" current-profile="[[userProfile]]"></summit-time-schedule>
+          <summit-pick-stream name="pick-stream" event-data="[[eventData]]" current-profile="[[userProfile]]"></summit-pick-stream>
           <summit-404 name="404"></summit-404>
         </iron-pages>
       </app-header-layout>
@@ -123,11 +129,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'summit-app',
 
+      listeners: {
+        'update-user-profile': '_onUserProfileUpdate',
+      },
+
       properties: {
         page: {
           type: String,
           reflectToAttribute: true,
           observer: '_pageChanged',
+        },
+        userProfile: {
+          type: Object,
+          value: function() {
+            return {
+              stream: null,
+              day:1
+            };
+          },
+        },
+        eventData: {
+          type: Object,
+          value: {},
         },
       },
 
@@ -152,6 +175,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _showPage404: function () {
         this.page = '404';
       },
+
+      _onUserProfileUpdate: function(event){
+        this.$.profile.updateProfile(event.detail);
+      }
+
     });
   </script>
 </dom-module>

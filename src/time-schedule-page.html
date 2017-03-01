@@ -2,7 +2,6 @@
 
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -14,6 +13,13 @@
         display: block;
         padding: 10px;
       }
+
+      :host .card {
+        padding: 10px;
+        text-align: center;
+        margin: 0px;
+      }
+
 
       iron-list {
         --iron-list-items-container: {
@@ -30,12 +36,11 @@
         background-color: white;
         border: 1px solid #ddd;
         cursor: pointer;
-        margin-bottom: 10px;
+        margin-bottom: 1px;
       }
       .avatar {
-        height: 40px;
-        width: 40px;
-        border-radius: 20px;
+        height: 50px;
+        width: 50px;
         box-sizing: border-box;
         background-color: #DDD;
       }
@@ -69,19 +74,33 @@
         content: ' [–]';
       }
 
+      .avatar .hour {
+        vertical-align: middle;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+      }
 
+      .label-lecture {
 
+      }
+      .avatar-lecture {
+
+      }
     </style>
 
-    <iron-ajax url="/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
 
+    <div class$="[[_classForDay(day)]]"><h1>[[day.name]]</h1></div>
 
-    <iron-list id="list" items="[[_getTimeSlots(eventData, 1)]]" as="item" selection-enabled multi-selection>
+    <iron-list id="list" items="[[_getTimeSlots(eventData, currentProfile)]]" as="item" selection-enabled multi-selection>
        <template>
          <div>
-           <div class$="[[_getClassForItem(item, selected)]]" tabindex$="[[tabIndex]]">
+           <div class$="[[_classForItem(item, selected)]]">
 
-             <div class="avatar"></div>
+             <div class="avatar">
+               <span class="hour">[[item.startTime]]</span>
+               <span class="hour">(icon)</span>
+             </div>
 
              <div class="pad">
                <div class="primary">[[item.name]]</div>
@@ -118,35 +137,61 @@
 
         properties: {
           eventData: {
+            type: Object,
             value: {},
-            type: Object
+          },
+          currentProfile: {
+            type: Object,
+          },
+          day: {
+            type: Object,
+            computed: '_getDay(eventData, currentProfile)',
           }
         },
+
         // needed for iron-list
         attached: function() {
           // Use the document element
           this.$.list.scrollTarget = this.ownerDocument.documentElement;
         },
 
-        _getTimeSlots: function(eventData, dayId, streamId) {
+        ////////////////////////////////////////////////////
+
+        _getDay: function(eventData, profile) {
+          if (!eventData.days) {
+            return {};
+          }
+          return eventData.days
+            .filter(function(day) {
+              return day.id === profile.day;
+            })[0] || {};
+        },
+
+        _getTimeSlots: function(eventData, profile) {
           if (!eventData.timeSlots) {
             return [];
           }
           return eventData.timeSlots
             .filter(function(timeSlot) {
-              return timeSlot.onDay === dayId;
+              return timeSlot.onDay === profile.day;
             })
             .filter(function(timeSlot) {
-                if (streamId) {
-                  return timeSlot.stream === streamId;
-                }
-                return !timeSlot.stream;
+                return !timeSlot.stream || timeSlot.stream === profile.stream;
             });
         },
 
-        _getClassForItem: function(item, selected) {
+
+        ////////////////////////////////////////////////////
+
+        _classForItem: function(item, selected) {
           return selected ? 'item expanded' : 'item';
         },
+
+        _classForDay: function(day) {
+          return 'card day-' + day.id;
+        },
+
+        ////////////////////////////////////////////////////
 
         _getShortDescription: function(timeSlot) {
           if (!timeSlot.description){

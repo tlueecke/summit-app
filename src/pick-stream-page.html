@@ -1,4 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="summit-pick-stream">
@@ -6,22 +9,64 @@
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
+      }
+      :host ul {
+        padding: 0px;
+        margin: 0px;
+      }
+      :host ul li {
+        list-style-type: none;
+      }
+      :host .card:hover {
+        cursor: pointer;
+      }
+      :host .card.selected {
+        background-color: #daf2fa;
       }
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <div class="question">
+      <h1>Please select your stream:</h1>
+      <hr>
     </div>
+
+    <ul>
+      <template is="dom-repeat" items="[[_getStreams(eventData)]]" initial-count="1">
+        <li on-click="_selectStream" data-stream-id$="{{item.id}}">
+            <div class$="[[_classForCard(item, currentProfile)]]">
+              <h1>{{item.name}}</h1>
+            </div>
+        </li>
+      </template>
+    </ul>
+
   </template>
 
   <script>
     Polymer({
       is: 'summit-pick-stream',
+
+      properties: {
+        eventData: Object,
+        currentProfile: Object,
+      },
+
+      _getStreams: function(eventData) {
+        return eventData.streams || [];
+      },
+
+      _selectStream: function(event) {
+        var item = event.model.item;
+        this.fire('update-user-profile', {
+          stream: item.id,
+        });
+      },
+
+      _classForCard: function(item, currentProfile) {
+        return item.id === currentProfile.stream ? 'card selected' : 'card';
+      }
+
     });
   </script>
 </dom-module>
