@@ -2,6 +2,7 @@
 
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -90,9 +91,14 @@
     </style>
 
 
+    <app-route
+        route="{{route}}"
+        pattern="/:day"
+        data="{{routeData}}"></app-route>
+
     <div class$="[[_classForDay(day)]]"><h1>[[day.name]]</h1></div>
 
-    <iron-list id="list" items="[[_getTimeSlots(eventData, currentProfile)]]" as="item" selection-enabled multi-selection>
+    <iron-list id="list" items="[[_getTimeSlots(eventData, currentProfile, day)]]" as="item" selection-enabled multi-selection>
        <template>
          <div>
            <div class$="[[_classForItem(item, selected)]]">
@@ -143,9 +149,12 @@
           currentProfile: {
             type: Object,
           },
+          routeData:{
+            type: Object,
+          },
           day: {
             type: Object,
-            computed: '_getDay(eventData, currentProfile)',
+            computed: '_getDay(eventData, routeData)',
           }
         },
 
@@ -157,20 +166,24 @@
 
         ////////////////////////////////////////////////////
 
-        _getDay: function(eventData, profile) {
+        _getDay: function(eventData, routeData) {
           if (!eventData.days) {
             return {};
           }
-          return eventData.days
-            .filter(function(day) {
-              return day.id === profile.day;
-            })[0] || {};
+          var firstDay = eventData.days[0],
+              matchedDay = eventData.days
+                .filter(function(day) {
+                  return day.id === +routeData.day;
+                })[0];
+
+          if (!matchedDay){
+            //this.set('route.path', '/' + firstDay.id);
+            return firstDay;
+          }
+          return matchedDay;
         },
 
-        _getTimeSlots: function(eventData, profile) {
-          if (!eventData.timeSlots) {
-            return [];
-          }
+        _getTimeSlots: function(eventData, profile, activeDay) {
 
           function startTimeComparator(ts1, ts2){
             var hour1 = ts1.startTime.split(':').map(function(str){return +str}),
@@ -188,7 +201,7 @@
 
                 if (currentSlot.endTime !== nextSlot.startTime) {
                   missingSlots.push({
-                    onDay: profile.day,
+                    onDay: activeDay.id,
                     name: "Stream Session",
                     description: "Please pick your stream to see the proper lecture here",
                     startTime: currentSlot.endTime,
@@ -201,10 +214,15 @@
             return missingSlots;
           }
 
+          // ---------------------------------------------
+
+          if (!eventData.timeSlots) {
+            return [];
+          }
 
           var tsByDayAndStream = eventData.timeSlots
             .filter(function(timeSlot) {
-              return timeSlot.onDay === profile.day;
+              return timeSlot.onDay === activeDay.id;
             })
             .filter(function(timeSlot) {
                 return !timeSlot.stream || timeSlot.stream === profile.stream;
@@ -214,8 +232,6 @@
             return tsByDayAndStream.concat(missingSlots)
               .sort(startTimeComparator);
         },
-
-
 
         ////////////////////////////////////////////////////
 

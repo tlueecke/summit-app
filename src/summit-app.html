@@ -86,10 +86,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-icon icon="my-icons:chevron-right"></iron-icon>
             Days overview
           </a>
-          <a name="time-schedule" href="/time-schedule">
-            <iron-icon icon="my-icons:chevron-right"></iron-icon>
-            Time schedule (example)
-          </a>
           <a name="pick-stream" href="/pick-stream">
             <iron-icon icon="my-icons:chevron-right"></iron-icon>
             Pick your stream
@@ -117,7 +113,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           fallback-selection="404"
           role="main">
           <summit-days name="days" event-data="[[eventData]]"></summit-days>
-          <summit-time-schedule name="time-schedule" event-data="[[eventData]]" current-profile="[[userProfile]]"></summit-time-schedule>
+          <summit-time-schedule name="time-schedule" event-data="[[eventData]]" current-profile="[[userProfile]]" route="{{subroute}}"></summit-time-schedule>
           <summit-pick-stream name="pick-stream" event-data="[[eventData]]" current-profile="[[userProfile]]"></summit-pick-stream>
           <summit-404 name="404"></summit-404>
         </iron-pages>
@@ -159,7 +155,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       _routePageChanged: function (page) {
-        this.page = page || 'days';
+        this.page = page || 'time-schedule';
 
         if (!this.$.drawer.persistent) {
           this.$.drawer.close();

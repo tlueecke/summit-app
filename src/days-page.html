@@ -1,7 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
 
 <link rel="import" href="shared-styles.html">
+
 
 
 <dom-module id="summit-days">
@@ -18,11 +20,16 @@
       :host ul li {
         list-style-type: none;
       }
+      :host .card {
+        cursor: pointer;
+      }
     </style>
+
+    <app-location route="{{location}}"></app-location>
 
     <ul>
       <template is="dom-repeat" items="[[_getDays(eventData)]]" initial-count="1">
-        <li>
+        <li on-click="_selectDay">
           <div class="card">
             <div class="layout horizontal">
               <div class="layout vertical">
@@ -57,10 +64,15 @@
         },
       },
 
+      _selectDay: function(event) {
+        var item = event.model.item;
+        this.set('location.path', '/time-schedule/' + item.id);
+      },
 
       _getDays: function(eventData) {
         return eventData.days || [];
       },
+
       _dayAvatarClasses: function(id) {
         return "circle day-"+id;
       },
