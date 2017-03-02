@@ -3,6 +3,8 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -13,6 +15,8 @@
       :host {
         display: block;
         padding: 10px;
+        --iron-icon-width: 32px;
+        --iron-icon-height: 32px;
       }
 
       :host .card {
@@ -45,10 +49,17 @@
         margin-bottom: 1px;
       }
       .avatar {
-        height: 50px;
-        width: 50px;
+        height: 60px;
+        width: 60px;
         box-sizing: border-box;
-        background-color: #DDD;
+        text-align: center;
+      }
+      .avatar .hour {
+        vertical-align: middle;
+        display: inline-block;
+        width: 100%;
+        font-family: 'Iceberg', cursive;
+        font-size: 20px;
       }
       .pad {
         padding: 0 16px;
@@ -80,13 +91,6 @@
         content: ' [–]';
       }
 
-      .avatar .hour {
-        vertical-align: middle;
-        display: inline-block;
-        text-align: center;
-        width: 100%;
-      }
-
 
       .label-lecture {
 
@@ -111,7 +115,25 @@
 
              <div class="avatar">
                <span class="hour">[[item.startTime]]</span>
-               <span class="hour">(icon)</span>
+               <template is="dom-if" if="{{_isLectureAll(item)}}">
+                 <iron-icon icon="account-balance"></iron-icon>
+               </template>
+               <template is="dom-if" if="{{_isLectureStream(item)}}">
+                 <iron-icon icon="chrome-reader-mode"></iron-icon>
+               </template>
+               <template is="dom-if" if="{{_isLecturePlaceholder(item)}}">
+                 <iron-icon icon="help-outline"></iron-icon>
+               </template>
+               <template is="dom-if" if="{{_isOrg(item)}}">
+                 <iron-icon icon="content-paste"></iron-icon>
+               </template>
+               <template is="dom-if" if="{{_isFoodTime(item)}}">
+                 <iron-icon icon="maps:local-dining"></iron-icon>
+               </template>
+               <template is="dom-if" if="{{_isCoffeeTime(item)}}">
+                 <i class="coffee"></i>
+               </template>
+
              </div>
 
              <div class="pad">
@@ -212,7 +234,7 @@
                     description: "Please pick your stream to see the proper lecture here",
                     startTime: currentSlot.endTime,
                     endTime:nextSlot.startTime,
-                    labels: [1],
+                    labels: [],
                     stream: null
                   });
                 }
@@ -265,6 +287,32 @@
           }
           return timeSlot.description.length > SHORT_DESC_MAX;
         },
+
+
+        ////////////////////////////////////////////////////
+
+        _isLectureAll: function(item){
+          return item.labels.indexOf(1)!==-1 && !item.stream;
+        },
+        _isLectureStream: function(item){
+          return item.labels.indexOf(1)!==-1 && item.stream;
+        },
+        _isLecturePlaceholder: function(item){
+          return item.labels.length===0 && !item.stream;
+        },
+        _isBreak: function(item){
+          return item.labels.indexOf(2)!==-1;
+        },
+        _isOrg: function(item){
+          return item.labels.indexOf(4)!==-1;
+        },
+        _isFoodTime: function(item){
+          return item.labels.indexOf(5)!==-1 && item.labels.indexOf(2)===-1;
+        },
+        _isCoffeeTime: function(item){
+          return item.labels.indexOf(5)!==-1 && item.labels.indexOf(2)!==-1;
+        },
+
 
       });
     })();
