@@ -85,6 +85,13 @@
         font-size: 16px;
         font-weight: bold;
       }
+      .primary .duration {
+        float: right;
+        font-size: 14px;
+        color: #b6b6b6;
+        font-weight: normal;
+      }
+
       .shortText, .longText, .shortTextOnly {
         font-size: 14px;
       }
@@ -146,7 +153,10 @@
              </div>
 
              <div class="pad">
-               <div class="primary">[[item.name]]</div>
+               <div class="primary">
+                 <span>[[item.name]]</span>
+                 <span class="duration">([[_calcDuration(item)]])</span>
+               </div>
 
                <template is="dom-if" if="{{!_hasLongDescription(item)}}">
                  <div class="shortTextOnly">[[_getShortDescription(item)]]</div>
@@ -175,6 +185,10 @@
     (function() {
 
       var SHORT_DESC_MAX = 50;
+
+      function timeToIntArray(hourStr){
+        return hourStr.split(':').map(function(str){return +str})
+      }
 
       Polymer({
         is: 'summit-time-schedule',
@@ -224,8 +238,8 @@
         _getTimeSlots: function(eventData, profile, activeDay) {
 
           function startTimeComparator(ts1, ts2){
-            var hour1 = ts1.startTime.split(':').map(function(str){return +str}),
-                hour2 = ts2.startTime.split(':').map(function(str){return +str});
+            var hour1 = timeToIntArray(ts1.startTime),
+                hour2 = timeToIntArray(ts2.startTime);
             return (hour1[0]+hour1[1]/60) - (hour2[0]+hour2[1]/60);
           }
 
@@ -300,6 +314,17 @@
 
 
         ////////////////////////////////////////////////////
+
+        _calcDuration: function(item){
+          var startTime = timeToIntArray(item.startTime),
+              endTime = timeToIntArray(item.endTime),
+              durationInMinutes = (endTime[0]*60+endTime[1]) - (startTime[0]*60+startTime[1]),
+              hours = Math.floor(durationInMinutes/60),
+              minutes =  durationInMinutes % 60;
+
+          return (hours ? (hours + 'h ') : '') +(minutes ? (minutes + 'm') : '');
+        },
+
 
         _isLectureAll: function(item){
           return item.labels.indexOf(1)!==-1 && !item.stream;
