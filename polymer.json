@@ -2,7 +2,6 @@
   "entrypoint": "index.html",
   "shell": "src/summit-app.html",
   "fragments": [
-    "src/days-page.html",
     "src/time-schedule-page.html",
     "src/pick-stream-page.html",
     "src/404-page.html"
