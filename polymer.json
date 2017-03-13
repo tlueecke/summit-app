@@ -11,7 +11,9 @@
     "src/**/*",
     "images/**/*",
     "data/**/*",
-    "bower.json"
+    "bower.json",
+    "package.json",
+    "index.js"
   ],
   "includeDependencies": [
     "manifest.json",
