@@ -4,6 +4,7 @@
   "fragments": [
     "src/time-schedule-page.html",
     "src/pick-stream-page.html",
+    "src/faq-page.html",
     "src/404-page.html"
   ],
   "sourceGlobs": [

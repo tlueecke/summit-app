@@ -131,7 +131,6 @@
            <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
              <paper-icon-item>
               <iron-icon class$="[[_classForDrawerDay(item)]]" icon="today" item-icon></iron-icon>
-               <!-- <div class="circle blue" item-icon></div> -->
                <paper-item-body two-line>
                  <div>[[item.name]]</div>
                  <div secondary>[[item.dayOfWeek]]</div>
@@ -172,6 +171,7 @@
           role="main">
           <summit-pick-stream name="pick-stream" event-data="[[eventData]]" current-profile="[[userProfile]]"></summit-pick-stream>
           <summit-time-schedule name="time-schedule" event-data="[[eventData]]" current-profile="[[userProfile]]" route="{{subroute}}"></summit-time-schedule>
+          <summit-faq name="faq"></summit-faq>
           <summit-404 name="404"></summit-404>
         </iron-pages>
       </app-header-layout>

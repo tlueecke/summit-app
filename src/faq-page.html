@@ -1,0 +1,88 @@
+<!--
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+<link rel="import" href="../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+
+<link rel="import" href="shared-styles.html">
+
+
+<dom-module id="summit-faq">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px 20px;
+      }
+
+      :host ul {
+        padding: 0px;
+        margin: 0px;
+      }
+
+      :host ul li {
+        list-style-type: none;
+      }
+
+      paper-icon-item {
+        padding: 0px;
+      }
+      iron-icon {
+        height: 35px;
+        width: 35px;
+      }
+
+      .first-item {
+        font-weight: bold;
+      }
+
+    </style>
+
+
+
+      <ul>
+         <li class="where">
+           <div class="card">
+               <h1>Where do we meet?</h1>
+               <span>Please find below all location information followed by a map.</span>
+
+               <hr>
+
+               <paper-icon-item>
+                   <iron-icon icon="maps:place" item-icon></iron-icon>
+                   <paper-item-body two-line>
+                     <div class="first-item">Hessenring 9</div>
+                     <div secondary>64546 Mörfelden-Walldorf</div>
+                   </paper-item-body>
+               </paper-icon-item>
+
+               <paper-icon-item>
+                   <iron-icon icon="maps:local-phone" item-icon></iron-icon>
+                   <paper-item-body one-line>
+                     <div class="first-item">+49 06105 2040</div>
+                   </paper-item-body>
+               </paper-icon-item>
+
+              <google-map fit-to-marker api-key="AIzaSyDBrnA2vOeYHU0NTtN6XQuyXIlX6JYllxc">
+                <google-map-marker animation="DROP" latitude="49.9845645" longitude="8.5855526" draggable="false"></google-map-marker>
+              </google-map>
+           </div>
+         </li>
+     </ul>
+
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'summit-faq',
+    });
+  </script>
+</dom-module>
