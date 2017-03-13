@@ -194,7 +194,7 @@
         },
         normPage: {
           type: String,
-          computed: '_getNormPage(page)',
+          computed: '_getNormPage(page, route.path)',
         },
         userProfile: {
           type: Object,
@@ -216,6 +216,7 @@
       ],
 
 
+
       ready: function() {
         // listen for online/offline
         Polymer.RenderStatus.afterNextRender(this, function() {
@@ -223,7 +224,6 @@
           this.listen(window, 'offline', '_notifyNetworkStatus');
         });
       },
-
 
       _routePageChanged: function (page) {
         this.page = page || 'time-schedule';
@@ -256,13 +256,38 @@
       },
 
       _onEventDataResponse: function(evt){
-        // initial redirect - at the moment no idea how to do it cleaner with polymer router
-        if ((window.location.origin+'/') === window.location.href){
-          window.location.href = window.location.href + 'time-schedule/'+ this.userProfile.day;
+
+
+
+        function retrieveStartDay(days, profileDayId){
+          var currentDate = new Date().toISOString().substring(0, 10).split('-').reverse().join('-'),
+              matchedDay = days.filter(function(day){
+                return day.date === currentDate;
+              })[0] || days.filter(function(day){
+                return day.id === profileDayId;
+              })[0];
+
+          return matchedDay;
+        }
+
+        var self = this,
+            evtDays = evt.detail.response.days,
+            startDay;
+
+        // initial redirect
+        if ((this.route.prefix + this.route.path) === '/') {
+          startDay = retrieveStartDay(evtDays, this.userProfile.day);
+          this.$.profile.updateProfile({day: startDay.id});
+          this.set('route.path', '/time-schedule/'+ startDay.id);
         }
       },
 
-      _getNormPage: function (pageName) {
+      _getNormPage: function (pageName, path) {
+
+        if (path.indexOf('time-schedule/') !== -1){
+          this.userProfile.day = +path.substring(path.length-1);
+        }
+
         if (pageName === 'time-schedule') {
           return 'time-schedule-'+ this.userProfile.day;
         }
