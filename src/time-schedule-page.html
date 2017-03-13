@@ -174,6 +174,7 @@
 
            </div>
          </div>
+
        </template>
     </iron-list>
 
@@ -325,6 +326,7 @@
           return (hours ? (hours + 'h ') : '') +(minutes ? (minutes + 'm') : '');
         },
 
+        // Icons
 
         _isLectureAll: function(item){
           return item.labels.indexOf(1)!==-1 && !item.stream;
@@ -347,6 +349,7 @@
         _isCoffeeTime: function(item){
           return item.labels.indexOf(5)!==-1 && item.labels.indexOf(2)!==-1;
         },
+
 
 
       });

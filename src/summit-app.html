@@ -26,7 +26,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="my-icons.html">
 
-<link rel="import" href="components/user-profile.html">
+<link rel="import" href="./components/user-profile.html">
+<link rel="import" href="./components/shop-snackbar.html">
 
 <dom-module id="summit-app">
   <template>
@@ -188,11 +189,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_routePageChanged(routeData.page)',
       ],
 
+
+      ready: function() {
+        // listen for online/offline
+        Polymer.RenderStatus.afterNextRender(this, function() {
+          this.listen(window, 'online', '_notifyNetworkStatus');
+          this.listen(window, 'offline', '_notifyNetworkStatus');
+        });
+      },
+
+
       _routePageChanged: function (page) {
         this.page = page || 'time-schedule';
 
         if (!this.$.drawer.persistent) {
           this.$.drawer.close();
+        }
+      },
+
+      _notifyNetworkStatus: function() {
+        var oldOffline = this.offline;
+        this.offline =  !navigator.onLine;
+        // Show the snackbar if the user is offline when starting a new session
+        // or if the network status changed.
+        if (this.offline || (!this.offline && oldOffline === true)) {
+          if (!this._networkSnackbar) {
+            this._networkSnackbar = document.createElement('shop-snackbar');
+            Polymer.dom(this.root).appendChild(this._networkSnackbar);
+          }
+          Polymer.dom(this._networkSnackbar).innerHTML = this.offline ?
+              'You are offline' : 'You are online';
+          this._networkSnackbar.open();
         }
       },
 
