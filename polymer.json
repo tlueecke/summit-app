@@ -11,7 +11,6 @@
     "src/**/*",
     "images/**/*",
     "data/**/*",
-    "fonts/**/*",
     "bower.json",
     "package.json",
     "index.js"
