@@ -14,7 +14,14 @@ module.exports = {
   staticFileGlobs: [
     '/index.html',
     '/manifest.json',
+    '/images/**',
     '/bower_components/webcomponentsjs/webcomponents-lite.min.js',
+    'https://fonts.gstatic.com/**',
+    'https://fonts.googleapis.com/css**',
   ],
+  runtimeCaching: [{
+   "urlPattern": "/data/(.*)/",
+   "handler": "networkFirst"
+  }],
   navigateFallback: 'index.html',
 };
