@@ -1,16 +1,27 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../bower_components/iron-list/iron-list.html">
 
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="summit-pick-stream">
   <template>
-    <style include="shared-styles">
+    <style include="shared-styles iron-flex iron-flex-alignment">
       :host {
         display: block;
         padding: 10px;
       }
+      .question h1 {
+        height:20px;
+        color: #757575;
+        margin-bottom: 15px;
+        font-weight: normal;
+        padding-left: 10px;
+        font-size: 16px;
+      }
+
       :host ul {
         padding: 0px;
         margin: 0px;
@@ -21,25 +32,50 @@
       :host .card:hover {
         cursor: pointer;
       }
-      :host .card.selected {
+      :host .iron-selected .card {
         background-color: var(--app-highlight-color);
       }
+      paper-button:after {
+        content: 'Show more';
+      }
+      paper-button[active]:after {
+        content: 'Hide';
+      }
+
+      :host paper-item .show-descr {
+        white-space: normal;
+      }
+
+
     </style>
 
     <div class="question">
-      <h1>Please select your stream:</h1>
-      <hr>
+      <h1>Stream selection</h1>
     </div>
 
-    <ul>
-      <template is="dom-repeat" items="[[_getStreams(eventData)]]" initial-count="1">
-        <li on-click="_selectStream" data-stream-id$="{{item.id}}">
-            <div class$="[[_classForCard(item, currentProfile)]]">
-              <h1>{{item.name}}</h1>
-            </div>
-        </li>
-      </template>
-    </ul>
+      <div role="listbox">
+        <template is="dom-repeat" items="{{_getStreams(eventData)}}" initial-count="1">
+          <paper-item class="card">
+              <paper-item-body two-line>
+                <div class="layout horizontal">
+                 <div class="layout vertical">
+                   <h3>{{item.name}}</h3>
+                 </div>
+
+                 <div class="flex layout horizontal center end-justified">
+                   <paper-checkbox on-tap="_selectStream" checked="{{_isStreamSelected(item, currentProfile)}}"></paper-checkbox>
+                 </div>
+               </div>
+
+              <div secondary class$="{{_classForDescription(item, showState)}}">{{item.description}}</div>
+              <paper-button toggles on-tap="_showHide"></paper-button>
+
+              </paper-item-body>
+
+            </paper-icon-button>
+          </paper-item>
+        </template>
+      </div>
 
   </template>
 
@@ -50,6 +86,10 @@
       properties: {
         eventData: Object,
         currentProfile: Object,
+        showState: {
+          type: Object,
+          value: {},
+        }
       },
 
       _getStreams: function(eventData) {
@@ -63,9 +103,20 @@
         });
       },
 
-      _classForCard: function(item, currentProfile) {
-        return item.id === currentProfile.stream ? 'card selected' : 'card';
-      }
+      _classForDescription: function(item, showState) {
+        return showState[item.id] ? 'show-descr' : '';
+      },
+
+      _showHide: function(event) {
+        var item = event.model.item;
+        var delta = {};
+        delta[item.id] = !this.showState[item.id];
+        this.set('showState', Object.assign({}, this.showState, delta));
+      },
+
+      _isStreamSelected: function(item, currentProfile) {
+        return item.id === currentProfile.stream;
+      },
 
     });
   </script>

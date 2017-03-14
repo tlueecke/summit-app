@@ -120,12 +120,6 @@
                Pick your stream
             </paper-icon-item>
          </a>
-         <a name="pick-stream" href="https://twitter.com/Capgemini" target="_blank">
-            <paper-icon-item>
-               <iron-icon icon="brands:twitter" item-icon></iron-icon>
-               Twitter
-            </paper-icon-item>
-         </a>
 
          <template is="dom-repeat" items="[[eventData.days]]" initial-count="1">
            <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
@@ -139,7 +133,12 @@
            </a>
          </template>
 
-
+         <a name="pick-stream" href="https://twitter.com/Capgemini" target="_blank">
+            <paper-icon-item>
+               <iron-icon icon="brands:twitter" item-icon></iron-icon>
+               Twitter
+            </paper-icon-item>
+         </a>
 
         <a name="pick-stream" href="/faq">
            <paper-icon-item>
