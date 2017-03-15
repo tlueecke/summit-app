@@ -122,6 +122,8 @@
 
         <iron-selector selected="[[normPage]]" attr-for-selected="name" class="drawer-list" role="navigation">
 
+        <div><!--Belive it or not, but lack of this empty div breaks layout (only when dom-repeat is on top)--></div>
+
          <template is="dom-repeat" items="[[eventData.days]]" initial-count="1">
            <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
              <paper-icon-item>
@@ -141,7 +143,7 @@
            </paper-icon-item>
          </a>
 
-         <a name="twitter" href="https://twitter.com/Capgemini" target="_blank">
+         <a name="twitter" href="https://twitter.com/hashtag/CAS_DE2017" target="_blank">
             <paper-icon-item>
                <iron-icon icon="brands:twitter" item-icon></iron-icon>
                Twitter

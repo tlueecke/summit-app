@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 <link rel="import" href="shared-styles.html">
@@ -35,6 +36,9 @@
       :host .iron-selected .card {
         background-color: var(--app-highlight-color);
       }
+      .card {
+        padding-bottom: 8px;
+      }
       paper-button:after {
         content: 'Show more';
       }
@@ -46,11 +50,15 @@
         white-space: normal;
       }
 
+      :host .card a {
+        color: black;
+      }
+
 
     </style>
 
     <div class="question">
-      <h1>Stream selection</h1>
+      <h1>Streams</h1>
     </div>
 
       <div role="listbox">
@@ -63,7 +71,10 @@
                  </div>
 
                  <div class="flex layout horizontal center end-justified">
-                   <paper-checkbox on-click="_selectStream" checked="{{_isStreamSelected(item, currentProfile)}}"></paper-checkbox>
+                    <!-- <paper-checkbox on-tap="_selectStream" checked="{{_isStreamSelected(item, currentProfile)}}"></paper-checkbox> -->
+                    <a name="twitter" href$="{{_tweetUrl(item)}}" target="_blank">
+                      <iron-icon icon="brands:twitter" item-icon></iron-icon>
+                    </a>
                  </div>
                </div>
 
@@ -96,16 +107,21 @@
         return eventData.streams || [];
       },
 
-      _selectStream: function(event) {
-        var item = event.model.item;
-        this.fire('update-user-profile', {
-          stream: item.id,
-        });
-      },
+      // _selectStream: function(event) {
+      //   var item = event.model.item;
+      //   this.fire('update-user-profile', {
+      //     stream: item.id,
+      //   });
+      // },
 
       _classForDescription: function(item, showState) {
         return showState[item.id] ? 'show-descr' : '';
       },
+
+      _tweetUrl: function(item) {
+        return 'https://twitter.com/hashtag/' + item.hashtag;
+      },
+
 
       _showHide: function(event) {
         var item = event.model.item;
@@ -114,9 +130,9 @@
         this.set('showState', Object.assign({}, this.showState, delta));
       },
 
-      _isStreamSelected: function(item, currentProfile) {
-        return item.id === currentProfile.stream;
-      },
+      // _isStreamSelected: function(item, currentProfile) {
+      //   return item.id === currentProfile.stream;
+      // },
 
     });
   </script>
