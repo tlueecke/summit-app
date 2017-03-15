@@ -20,7 +20,7 @@ module.exports = {
     'https://fonts.googleapis.com/css**',
   ],
   runtimeCaching: [{
-   "urlPattern": "/data\/(.*)/",
+   "urlPattern": "/data\\/(.*)/",
    "handler": "networkFirst"
   }],
   navigateFallback: 'index.html',
