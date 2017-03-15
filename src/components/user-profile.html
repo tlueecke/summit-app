@@ -13,22 +13,13 @@
         currentProfile: {
           type: Object,
           notify: true,
-        },
-        profileWatch: {
-          computed: '_watchProfile(currentProfile)',
-          observe: '_observeProfile(currentProfile)',
         }
       },
 
       updateProfile: function(profileOvelay){
         this.set('currentProfile', Object.assign({}, this.currentProfile, profileOvelay));
       },
-
-      // _watchProfile: function(currentProfile){
-      //   console.log('User profile changed, new:');
-      //   console.dir(currentProfile);
-      // },
-
+      
     });
   </script>
 </dom-module>

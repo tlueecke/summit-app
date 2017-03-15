@@ -1,9 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<!-- <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html"> -->
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-icons/hardware-icons.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -36,22 +37,21 @@
       :host .iron-selected .card {
         background-color: var(--app-highlight-color);
       }
-      .card {
-        padding-bottom: 8px;
-      }
-      paper-button:after {
-        content: 'Show more';
-      }
-      paper-button[active]:after {
-        content: 'Hide';
-      }
 
       :host paper-item .show-descr {
         white-space: normal;
       }
+      .card {
+        padding-bottom: 8px;
+      }
 
       :host .card a {
         color: black;
+      }
+
+      .toggle-area {
+        text-overflow: ellipsis;
+        display: inline;
       }
 
 
@@ -73,13 +73,24 @@
                  <div class="flex layout horizontal center end-justified">
                     <!-- <paper-checkbox on-tap="_selectStream" checked="{{_isStreamSelected(item, currentProfile)}}"></paper-checkbox> -->
                     <a name="twitter" href$="{{_tweetUrl(item)}}" target="_blank">
-                      <iron-icon icon="brands:twitter" item-icon></iron-icon>
+                      <iron-icon icon="brands:twitter"></iron-icon>
                     </a>
                  </div>
+
                </div>
 
-              <div secondary class$="{{_classForDescription(item, showState)}}">{{item.description}}</div>
-              <paper-button toggles on-tap="_showHide"></paper-button>
+              <div on-tap="_showHide">
+                <paper-ripple></paper-ripple>
+                <div secondary class$="{{_classForDescription(item, showState)}}">{{item.description}}</div>
+                <div class="flex layout horizontal center end-justified">
+                  <template is="dom-if" if="{{_isCollapsed(item, showState)}}">
+                    <iron-icon class="toggle" icon="hardware:keyboard-arrow-up" item-icon></iron-icon>
+                  </template>
+                  <template is="dom-if" if="{{!_isCollapsed(item, showState)}}">
+                    <iron-icon class="toggle" icon="hardware:keyboard-arrow-down" item-icon></iron-icon>
+                  </template>
+                </div>
+              </div>
 
               </paper-item-body>
 
@@ -115,11 +126,15 @@
       // },
 
       _classForDescription: function(item, showState) {
-        return showState[item.id] ? 'show-descr' : '';
+        return showState[item.id] ? 'toggle-area show-descr' : 'toggle-area';
       },
 
       _tweetUrl: function(item) {
         return 'https://twitter.com/hashtag/' + item.hashtag;
+      },
+
+      _isCollapsed: function(item, showState) {
+        return !!showState[item.id];
       },
 
 
