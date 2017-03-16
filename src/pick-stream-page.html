@@ -131,9 +131,14 @@
       },
 
       _getRoomName: function(item, eventData) {
-        return eventData.rooms.filter(function(room){
+        var matchedRoom = eventData.rooms.filter(function(room){
             return room.id === item.room;
-        })[0].name;
+        })[0];
+
+        if (!matchedRoom) {
+          return '';
+        }
+        return matchedRoom.name;
       },
 
       _getLeaders: function(item, eventData) {
