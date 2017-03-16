@@ -53,6 +53,15 @@
         padding-right: 10px;
       }
 
+      .room {
+        text-align: right;
+        color: gray;
+      }
+
+      .presenter {
+        margin-top: 5px;
+      }
+
 
       iron-list {
         --iron-list-items-container: {
@@ -179,6 +188,21 @@
                 <div class="longText">[[item.description]]</div>
               </template>
 
+
+              <template is="dom-if" if="{{item.presenters.length}}">
+                <div class="presenter">
+                  <iron-icon icon="account-circle"></iron-icon>
+                  {{_getPresenters(item, eventData)}}
+                </div>
+              </template>
+
+              <template is="dom-if" if="{{item.room}}">
+                <div class="room">
+                  {{_getRoomName(item, eventData)}}
+                  <iron-icon icon="event-seat"></iron-icon>
+                </div>
+              </template>
+
              </div>
 
            </div>
@@ -293,6 +317,21 @@
 
             return tsByDayAndStream.concat(missingSlots)
               .sort(startTimeComparator);
+        },
+
+        _getRoomName: function(item, eventData) {
+          return eventData.rooms.filter(function(room){
+              return room.id === item.room;
+          })[0].name;
+        },
+
+
+        _getPresenters: function(item, eventData) {
+          return item.presenters.map(function(presenter){
+            return eventData.persons.filter(function(person){
+              return person.id ===presenter;
+            })[0].name;
+          }).join(' / ');
         },
 
         ////////////////////////////////////////////////////
