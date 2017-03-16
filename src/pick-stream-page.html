@@ -80,7 +80,6 @@
                </div>
 
               <div on-tap="_showHide">
-                <paper-ripple></paper-ripple>
                 <div secondary class$="{{_classForDescription(item, showState)}}">{{item.description}}</div>
                 <div class="flex layout horizontal center end-justified">
                   <template is="dom-if" if="{{_isCollapsed(item, showState)}}">
