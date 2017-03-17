@@ -5,20 +5,26 @@
 
 <dom-module id="push-activation">
   <template>
-    <paper-icon-item id="btnSubscribe" on-tap="tapSubscribePush">
+    <paper-icon-item on-tap="tapSubscribePush">
       <iron-icon icon="social:notifications" item-icon></iron-icon>
       Push Notifications
     </paper-icon-item>
   </template>
 
   <script>
-    Polymer({
-      is: 'push-activation',
+    (function() {
+      var swRegistration,
+	isSubscribed;
+      const x = 1, y = 42;
+
+      Polymer({
+	is: 'push-activation',
 
 
-      tapSubscribePush: function() {
-        window.alert('Hello');
-      }
-    });
+	tapSubscribePush: function() {
+	  window.alert('Hello ' + y);
+	}
+      });
+    })();
   </script>
 </dom-module>
