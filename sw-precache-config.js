@@ -11,6 +11,7 @@
 /* eslint-env node */
 
 module.exports = {
+  cacheId: "summit"+require('./package.json').version,
   staticFileGlobs: [
     '/index.html',
     '/manifest.json',

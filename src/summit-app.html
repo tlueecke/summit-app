@@ -231,6 +231,7 @@
         Polymer.RenderStatus.afterNextRender(this, function() {
           this.listen(window, 'online', '_notifyNetworkStatus');
           this.listen(window, 'offline', '_notifyNetworkStatus');
+          this.listen(document, 'service-worker-updated', '_notifyWorkerUpdated');
         });
       },
 
@@ -256,6 +257,15 @@
               'You are offline' : 'You are online';
           this._networkSnackbar.open();
         }
+      },
+
+      _notifyWorkerUpdated: function() {
+          if (!this._workerSnackbar) {
+            this._workerSnackbar = document.createElement('shop-snackbar');
+            Polymer.dom(this.root).appendChild(this._workerSnackbar);
+          }
+          Polymer.dom(this._workerSnackbar).innerHTML = 'New content available, please refresh';
+          this._workerSnackbar.open();
       },
 
       _pageChanged: function (pageName) {
