@@ -32,6 +32,7 @@
         border-radius: 50%;
         z-index: 100;
         translate3d(0px,0px,0px);
+        will-change: transform;
       }
       .day-header {
         height:20px;
@@ -142,7 +143,8 @@
       <div class="date">[[day.dayOfWeek]], [[day.date]]</div>
     </div>
 
-    <iron-list id="list" items="[[_getTimeSlots(eventData, currentProfile, day)]]" as="item" selection-enabled multi-selection>
+    <div id="scrollRoot">
+    <iron-list id="list" items="[[_getTimeSlots(eventData, currentProfile, day)]]" as="item">
        <template>
          <div>
            <div class$="[[_classForItem(item, selected)]]">
@@ -210,6 +212,7 @@
 
        </template>
     </iron-list>
+    </div>
 
 
   </template>
@@ -247,7 +250,7 @@
         // needed for iron-list
         attached: function() {
           // Use the document element
-          this.$.list.scrollTarget = this.ownerDocument.documentElement;
+          this.$.list.scrollTarget = this.$.scrollRoot;
         },
 
         ////////////////////////////////////////////////////
