@@ -13,6 +13,7 @@
     "data/**/*",
     "bower.json",
     "package.json",
+    "worker-extension.js",
     "index.js"
   ],
   "includeDependencies": [

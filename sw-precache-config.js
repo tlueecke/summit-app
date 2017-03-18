@@ -11,7 +11,7 @@
 /* eslint-env node */
 
 module.exports = {
-  cacheId: "summit"+require('./package.json').version,
+  cacheId: 'summit'+require('./package.json').version,
   staticFileGlobs: [
     '/index.html',
     '/manifest.json',
@@ -21,8 +21,9 @@ module.exports = {
     'https://fonts.googleapis.com/css**',
   ],
   runtimeCaching: [{
-   "urlPattern": "/data\\/(.*)/",
-   "handler": "networkFirst"
+   urlPattern: '/data\\/(.*)/',
+   handler: 'networkFirst'
   }],
+  importScripts:['worker-extension.js'],
   navigateFallback: 'index.html',
 };
