@@ -18,25 +18,37 @@
         publicServerKey: 'BPOOvDThOUuSxiC-DuMv-WXG0XbSCwKR6Jux0CkyeyZ86OMF2U64VYKksNCJKoJdq1ISzYKfCUUxB6hKM0zeNGA',
         supportsPush: false,
 
-        ready: function() {
+        attached: function() {
             if (!('serviceWorker' in navigator && 'PushManager' in window)) {
                 console.error('Push notification NOT supported!');
                 return;
             }
             this.supportsPush = true;
             console.log('Push notification supported!');
-	    navigator.serviceWorker.getRegistration()
-                .then(this.initUI.bind(this))
-                .catch(function(err) {
-                    console.error('Service Worker not registered ' + err);
-                });
+            this.getSwRegistration()
+                .then(this.initUI.bind(this));
+
+        },
+
+
+        getSwRegistration: function() {
+            if (this.swRegistration) {
+                return Promise.resolve(this.swRegistration);
+            }
+            return navigator.serviceWorker.getRegistration()
+                .then(function (swRegistration) {
+                    if (swRegistration) {
+                        this.swRegistration = swRegistration;
+                        return swRegistration;
+                    } else {
+                        return Promise.reject('No running service worker found!');
+                    }
+                }.bind(this));
 
         },
 
         // initialize UI and get subscription details
         initUI: function (swRegistration) {
-            console.log('Service worker registered successfully!');
-            this.swRegistration = swRegistration;
             swRegistration.pushManager.getSubscription()
                 .then(function(subscription) {
                     if (subscription) {
@@ -63,12 +75,15 @@
         tapSubscribePush: function(e) {
             if (!this.supportsPush)
                 return;
-            this.$.subscribeButton.disabled = true;
-            if (this.isSubscribed) {
-                this.unsubscribeUser();
-            } else {
-                this.subscribeUser();
-            }
+            this.getSwRegistration()
+                .then(function () {
+                    this.$.subscribeButton.disabled = true;
+                    if (this.isSubscribed) {
+                        this.unsubscribeUser();
+                    } else {
+                        this.subscribeUser();
+                    }
+                }.bind(this));
         },
 
         unsubscribeUser: function () {
@@ -93,12 +108,8 @@
         unregisterSubscriptionOnServer: function (subscription) {
             return fetch('/unregisterSubscription', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    subscription: subscription,
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subscription: subscription })
             });
         },
 
@@ -136,12 +147,8 @@
         registerSubscriptionOnServer: function (subscription) {
             return fetch('/registerSubscription', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    subscription: subscription,
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subscription: subscription })
             });
         }
 
