@@ -25,16 +25,18 @@ app.use(fallback('index.html', { root: root }));
 
 app.post('/push/:title/:msg', (req, res) => {
     var title = req.params.title,
-	msg = req.params.msg;
+        msg = req.params.msg;
 
     subscriptions.forEach(subscriber => {
-	console.log(`Sending to ${subscriber.endpoint}...`);
+        console.log(`Sending to ${subscriber.endpoint}...`);
         webpush.sendNotification(
             subscriber,
-	    JSON.stringify({title: title,
-			    body: msg,
-			    vibrate: [200, 100, 200, 100, 200, 100, 200]
-			   }),
+            JSON.stringify({title: title,
+                            body: msg,
+                            icon: '/images/coffee.png',
+                            badge: '/images/coffee-beans.png',
+                            vibrate: [200, 100, 200, 100, 200, 100, 200]
+                           }),
             options).catch((err) => {
                 console.log('Error while pushing to [' + subscriber.endpoint + ']: ' + err.statusCode + ', ' + err.body);
             });
