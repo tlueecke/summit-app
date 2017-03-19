@@ -35,3 +35,7 @@ self.addEventListener('push', function(event) {
         })
     );
 });
+
+f.addEventListener('notificationclick', function(event) {
+    event.notification.close();
+});

@@ -61,8 +61,8 @@
         },
 
         tapSubscribePush: function(e) {
-            console.log('#');
-            if (!this.supportsPush) return;
+            if (!this.supportsPush)
+                return;
             this.$.subscribeButton.disabled = true;
             if (this.isSubscribed) {
                 this.unsubscribeUser();
