@@ -6,25 +6,145 @@
 <dom-module id="push-activation">
   <template>
     <paper-icon-item on-tap="tapSubscribePush">
-      <iron-icon icon="social:notifications" item-icon></iron-icon>
+      <iron-icon id="subscribeButton" icon="social:notifications" item-icon></iron-icon>
       Push Notifications
     </paper-icon-item>
   </template>
 
   <script>
-    (function() {
-      var swRegistration,
-	isSubscribed;
-      const x = 1, y = 42;
+    Polymer({
+        is: 'push-activation',
 
-      Polymer({
-	is: 'push-activation',
+        publicServerKey: 'BPOOvDThOUuSxiC-DuMv-WXG0XbSCwKR6Jux0CkyeyZ86OMF2U64VYKksNCJKoJdq1ISzYKfCUUxB6hKM0zeNGA',
+        supportsPush: false,
 
+        ready: function() {
+            if (!('serviceWorker' in navigator && 'PushManager' in window)) {
+                console.error('Push notification NOT supported!');
+                return;
+            }
+            this.supportsPush = true;
+            console.log('Push notification supported!');
+            navigator.serviceWorker.register('/sw.js')
+                .then(this.initUI.bind(this))
+                .catch(function(err) {
+                    console.error('Service Worker not registered ' + err);
+                });
 
-	tapSubscribePush: function() {
-	  window.alert('Hello ' + y);
-	}
-      });
-    })();
-  </script>
+        },
+
+        // initialize UI and get subscription details
+        initUI: function (swRegistration) {
+            console.log('Service worker registered successfully!');
+            this.swRegistration = swRegistration;
+            swRegistration.pushManager.getSubscription()
+                .then(function(subscription) {
+                    if (subscription) {
+                        console.log('Subscription details: ' + JSON.stringify(subscription));
+                    } else {
+                        console.log('User is not subscribed!');
+                    }
+                    return subscription !== null
+                })
+                .then(this.updateSubscriptionButton.bind(this));
+        },
+
+        updateSubscriptionButton: function (isSubscribed) {
+            var btn = this.$.subscribeButton;
+            this.isSubscribed = isSubscribed;
+            if (isSubscribed) {
+                btn.icon = 'social:notifications-active';
+            } else {
+                btn.icon = 'social:notifications-off';
+            }
+            btn.disabled = false;
+        },
+
+        tapSubscribePush: function(e) {
+            console.log('#');
+            if (!this.supportsPush) return;
+            this.$.subscribeButton.disabled = true;
+            if (this.isSubscribed) {
+                this.unsubscribeUser();
+            } else {
+                this.subscribeUser();
+            }
+        },
+
+        unsubscribeUser: function () {
+            this.swRegistration.pushManager.getSubscription()
+                .then(function(subscription) {
+                    if (subscription) {
+                        subscription.unsubscribe();
+
+                    }
+                    return subscription;
+                })
+                .then(this.unregisterSubscriptionOnServer)
+                .then(function() {
+                    this.updateSubscriptionButton(false);
+                    console.log("User successfully unsubscribed");
+                }.bind(this))
+                .catch(function(err) {
+                    console.error('Cannot unsubscribe user ', err);
+                });
+        },
+
+        unregisterSubscriptionOnServer: function (subscription) {
+            return fetch('/unregisterSubscription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subscription: subscription,
+                })
+            });
+        },
+
+        subscribeUser: function () {
+            this.swRegistration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: this.urlB64ToUint8Array(this.publicServerKey)
+            })
+                .then(this.registerSubscriptionOnServer)
+                .then(function(){
+                    console.log('User successfully subscribed');
+                    this.updateSubscriptionButton(true);
+                }.bind(this))
+                .catch(function(err) {
+                    console.log('Unable to subscribe user ', err);
+                });
+        },
+
+        // converts VAPID public key to UInt 8 bit array required to subscribe user
+        urlB64ToUint8Array: function (base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                  .replace(/\-/g, '+')
+                  .replace(/_/g, '/');
+
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        },
+
+        registerSubscriptionOnServer: function (subscription) {
+            return fetch('/registerSubscription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subscription: subscription,
+                })
+            });
+        }
+
+    });
+</script>
 </dom-module>
