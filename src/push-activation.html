@@ -25,7 +25,7 @@
             }
             this.supportsPush = true;
             console.log('Push notification supported!');
-            navigator.serviceWorker.register('/sw.js')
+	    navigator.serviceWorker.getRegistration()
                 .then(this.initUI.bind(this))
                 .catch(function(err) {
                     console.error('Service Worker not registered ' + err);
