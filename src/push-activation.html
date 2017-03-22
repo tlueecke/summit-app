@@ -1,0 +1,167 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<!--<link rel="import" href="../bower_components/iron-icon/iron-icon.html">-->
+<link rel="import" href="../bower_components/iron-icons/social-icons.html">
+
+<dom-module id="push-activation">
+  <template>
+    <style>
+      :host {
+        display: block
+      }
+      paper-icon-button[hidden] {
+        display: none
+      }
+    </style>
+    <!--<template is="dom-if" if="{{_supportsPush}}">-->
+    <paper-icon-button id="subscribeButton" on-tap="_tapSubscribePush" hidden$="{{!_supportsPush}}"
+                       icon="social:notifications">
+    </paper-icon-button>
+    <!--</template>-->
+    <!--<paper-icon-item on-tap="_tapSubscribePush" hidden$="{{!_supportsPush}}">-->
+    <!--<iron-icon id="subscribeButton" icon="social:notifications" item-icon></iron-icon>-->
+    <!--Push Notifications-->
+    <!--</paper-icon-item>-->
+  </template>
+
+  <script>
+    Polymer({
+      is: 'push-activation',
+
+      properties: {
+        _supportsPush: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      // public API
+      initialize: function () {
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+          this._supportsPush = true;
+
+          navigator.serviceWorker.getRegistration()
+            .then(function (swRegistration) {
+              swRegistration.pushManager.getSubscription()
+                .then(function (subscription) {
+                  if (subscription) {
+                    console.log('Subscription details: ' + JSON.stringify(subscription));
+                  } else {
+                    console.log('User is not subscribed!');
+                  }
+                  return !!subscription;
+                })
+                .then(this._updateSubscriptionButton.bind(this));
+            }.bind(this));
+        } else {
+          console.error('Push notification NOT supported!');
+        }
+      },
+
+      // Internal
+
+      _isSubscribed: false,
+
+      _publicServerKey: 'BPOOvDThOUuSxiC-DuMv-WXG0XbSCwKR6Jux0CkyeyZ86OMF2U64VYKksNCJKoJdq1ISzYKfCUUxB6hKM0zeNGA',
+
+      _updateSubscriptionButton: function (isSubscribed) {
+        var btn = this.$.subscribeButton;
+        this._isSubscribed = isSubscribed;
+        if (isSubscribed) {
+          btn.icon = 'social:notifications-active';
+        } else {
+          btn.icon = 'social:notifications-off';
+        }
+        btn.disabled = false;
+      },
+
+      _tapSubscribePush: function (e) {
+        if (!this._supportsPush)
+          return;
+
+        navigator.serviceWorker.getRegistration()
+          .then(function () {
+            this.$.subscribeButton.disabled = true;
+            if (this._isSubscribed) {
+              this._unsubscribeUser();
+            } else {
+              this._subscribeUser();
+            }
+          }.bind(this));
+      },
+
+      _unsubscribeUser: function () {
+        navigator.serviceWorker.getRegistration()
+          .then(function (swRegistration) {
+            swRegistration.pushManager.getSubscription()
+              .then(function (subscription) {
+                if (subscription) {
+                  subscription.unsubscribe();
+
+                }
+                return subscription;
+              })
+              .then(this._unregisterSubscriptionOnServer)
+              .then(function () {
+                this._updateSubscriptionButton(false);
+                console.log("User successfully unsubscribed");
+              }.bind(this))
+              .catch(function (err) {
+                console.error('Cannot unsubscribe user ', err);
+              });
+          }.bind(this));
+      },
+
+      _unregisterSubscriptionOnServer: function (subscription) {
+        return fetch('/unregisterSubscription', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({subscription: subscription})
+        });
+      },
+
+      _subscribeUser: function () {
+        navigator.serviceWorker.getRegistration()
+          .then(function (swRegistration) {
+            var encodedPublicServerKey = this._urlB64ToUint8Array(this._publicServerKey);
+            swRegistration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: encodedPublicServerKey
+            })
+              .then(this._registerSubscriptionOnServer)
+              .then(function () {
+                console.log('User successfully subscribed');
+                this._updateSubscriptionButton(true);
+              }.bind(this))
+              .catch(function (err) {
+                console.log('Unable to subscribe user ', err);
+              });
+          }.bind(this));
+      },
+
+      // converts VAPID public key to UInt 8 bit array required to subscribe user
+      _urlB64ToUint8Array: function (base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+          .replace(/\-/g, '+')
+          .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (var i = 0; i < rawData.length; ++i) {
+          outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+      },
+
+      _registerSubscriptionOnServer: function (subscription) {
+        return fetch('/registerSubscription', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({subscription: subscription})
+        });
+      }
+    });
+  </script>
+</dom-module>

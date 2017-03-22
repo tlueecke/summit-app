@@ -17,10 +17,11 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
-<link rel="import" href="my-icons.html">
+<link rel="import" href="./my-icons.html">
 
 <link rel="import" href="./components/user-profile.html">
 <link rel="import" href="./components/shop-snackbar.html">
+<link rel="import" href="./push-activation.html">
 
 <dom-module id="summit-app">
   <template>
@@ -28,17 +29,17 @@
       :host {
         --app-primary-color: #4285f4;
         --app-secondary-color: black;
-        --app-highlight-color:  #daf2fa;
+        --app-highlight-color: #daf2fa;
 
         --first-day-color: orange;
         --second-day-color: green;
         --third-day-color: rgba(157, 74, 157, 0.63);
 
         --paper-item-focused: {
-             background-color: inherit;
+          background-color: inherit;
         };
         --paper-item-focused-before: {
-             background-color: inherit;
+          background-color: inherit;
         };
 
         display: block;
@@ -47,9 +48,11 @@
       :host .day-1 {
         color: var(--first-day-color);
       }
+
       :host .day-2 {
         color: var(--second-day-color);
       }
+
       :host .day-3 {
         color: var(--third-day-color);
       }
@@ -59,7 +62,7 @@
         background-color: var(--app-primary-color);
       }
 
-      app-drawer-layout{
+      app-drawer-layout {
         background-color: white;
       }
 
@@ -93,12 +96,12 @@
         padding: 0px;
       }
 
-      a:focus{
+      a:focus {
         outline-color: white;
       }
 
-      a.iron-selected{
-        background-color:  var(--app-highlight-color);
+      a.iron-selected {
+        background-color: var(--app-highlight-color);
       }
 
     </style>
@@ -110,7 +113,8 @@
       data="{{routeData}}"
       tail="{{subroute}}"></app-route>
 
-    <iron-ajax url="/data/events.json" last-response="{{eventData}}" on-response="_onEventDataResponse" auto></iron-ajax>
+    <iron-ajax url="/data/events.json" last-response="{{eventData}}" on-response="_onEventDataResponse"
+               auto></iron-ajax>
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
@@ -122,40 +126,40 @@
 
         <iron-selector selected="[[normPage]]" attr-for-selected="name" class="drawer-list" role="navigation">
 
-        <div><!--Belive it or not, but lack of this empty div breaks layout (only when dom-repeat is on top)--></div>
+          <div><!--Belive it or not, but lack of this empty div breaks layout (only when dom-repeat is on top)--></div>
 
-         <template is="dom-repeat" items="[[eventData.days]]" initial-count="1">
-           <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
-             <paper-icon-item>
-              <iron-icon class$="[[_classForDrawerDay(item)]]" icon="today" item-icon></iron-icon>
-               <paper-item-body two-line>
-                 <div>[[item.name]]</div>
-                 <div secondary>[[item.dayOfWeek]]</div>
-               </paper-item-body>
-             </paper-icon-item>
-           </a>
-         </template>
+          <template is="dom-repeat" items="[[eventData.days]]" initial-count="1">
+            <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
+              <paper-icon-item>
+                <iron-icon class$="[[_classForDrawerDay(item)]]" icon="today" item-icon></iron-icon>
+                <paper-item-body two-line>
+                  <div>[[item.name]]</div>
+                  <div secondary>[[item.dayOfWeek]]</div>
+                </paper-item-body>
+              </paper-icon-item>
+            </a>
+          </template>
 
-         <a name="pick-stream" href="/pick-stream">
-           <paper-icon-item>
-             <iron-icon icon="fingerprint" item-icon></iron-icon>
-             Streams
-           </paper-icon-item>
-         </a>
-
-         <a name="twitter" href="https://twitter.com/search?q=%23CAS2017DE" target="_blank">
+          <a name="pick-stream" href="/pick-stream">
             <paper-icon-item>
-               <iron-icon icon="brands:twitter" item-icon></iron-icon>
-               Twitter
+              <iron-icon icon="fingerprint" item-icon></iron-icon>
+              Streams
             </paper-icon-item>
-         </a>
+          </a>
 
-        <a name="faq" href="/faq">
-           <paper-icon-item>
+          <a name="twitter" href="https://twitter.com/search?q=%23CAS2017DE" target="_blank">
+            <paper-icon-item>
+              <iron-icon icon="brands:twitter" item-icon></iron-icon>
+              Twitter
+            </paper-icon-item>
+          </a>
+
+          <a name="faq" href="/faq">
+            <paper-icon-item>
               <iron-icon icon="help" item-icon></iron-icon>
               FAQ
-           </paper-icon-item>
-        </a>
+            </paper-icon-item>
+          </a>
 
         </iron-selector>
       </app-drawer>
@@ -163,13 +167,14 @@
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
-        <user-profile id="profile" current-profile="{{userProfile}}" ></user-profile>
+        <user-profile id="profile" current-profile="{{userProfile}}"></user-profile>
 
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
             <div main-title>Summit App</div>
             <img height="20px" src="../images/logo-capgemini-white.png">
+            <push-activation id="pushActivation"></push-activation>
           </app-toolbar>
         </app-header>
 
@@ -178,8 +183,10 @@
           attr-for-selected="name"
           fallback-selection="404"
           role="main">
-          <summit-pick-stream name="pick-stream" event-data="[[eventData]]" current-profile="[[userProfile]]"></summit-pick-stream>
-          <summit-time-schedule name="time-schedule" event-data="[[eventData]]" current-profile="[[userProfile]]" route="{{subroute}}"></summit-time-schedule>
+          <summit-pick-stream name="pick-stream" event-data="[[eventData]]"
+                              current-profile="[[userProfile]]"></summit-pick-stream>
+          <summit-time-schedule name="time-schedule" event-data="[[eventData]]" current-profile="[[userProfile]]"
+                                route="{{subroute}}"></summit-time-schedule>
           <summit-faq name="faq"></summit-faq>
           <summit-404 name="404"></summit-404>
         </iron-pages>
@@ -207,10 +214,10 @@
         },
         userProfile: {
           type: Object,
-          value: function() {
+          value: function () {
             return {
               stream: null,
-              day:1
+              day: 1
             };
           },
         },
@@ -225,13 +232,13 @@
       ],
 
 
-
-      ready: function() {
+      ready: function () {
         // listen for online/offline
-        Polymer.RenderStatus.afterNextRender(this, function() {
+        Polymer.RenderStatus.afterNextRender(this, function () {
           this.listen(window, 'online', '_notifyNetworkStatus');
           this.listen(window, 'offline', '_notifyNetworkStatus');
           this.listen(document, 'service-worker-updated', '_notifyWorkerUpdated');
+          this.listen(document, 'service-worker-registered', '_onServiceWorkerRegistered');
         });
       },
 
@@ -243,9 +250,15 @@
         }
       },
 
-      _notifyNetworkStatus: function() {
+      _onServiceWorkerRegistered: function () {
+        if (this.$.pushActivation.initialize) {
+          this.$.pushActivation.initialize();
+        }
+      },
+
+      _notifyNetworkStatus: function () {
         var oldOffline = this.offline;
-        this.offline =  !navigator.onLine;
+        this.offline = !navigator.onLine;
         // Show the snackbar if the user is offline when starting a new session
         // or if the network status changed.
         if (this.offline || (!this.offline && oldOffline === true)) {
@@ -254,18 +267,18 @@
             Polymer.dom(this.root).appendChild(this._networkSnackbar);
           }
           Polymer.dom(this._networkSnackbar).innerHTML = this.offline ?
-              'You are offline' : 'You are online';
+            'You are offline' : 'You are online';
           this._networkSnackbar.open();
         }
       },
 
-      _notifyWorkerUpdated: function() {
-          if (!this._workerSnackbar) {
-            this._workerSnackbar = document.createElement('shop-snackbar');
-            Polymer.dom(this.root).appendChild(this._workerSnackbar);
-          }
-          Polymer.dom(this._workerSnackbar).innerHTML = 'New content available, please refresh';
-          this._workerSnackbar.open();
+      _notifyWorkerUpdated: function () {
+        if (!this._workerSnackbar) {
+          this._workerSnackbar = document.createElement('shop-snackbar');
+          Polymer.dom(this.root).appendChild(this._workerSnackbar);
+        }
+        Polymer.dom(this._workerSnackbar).innerHTML = 'New content available, please refresh';
+        this._workerSnackbar.open();
       },
 
       _pageChanged: function (pageName) {
@@ -274,15 +287,14 @@
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
       },
 
-      _onEventDataResponse: function(evt){
+      _onEventDataResponse: function (evt) {
 
 
-
-        function retrieveStartDay(days, profileDayId){
+        function retrieveStartDay(days, profileDayId) {
           var currentDate = new Date().toISOString().substring(0, 10).split('-').reverse().join('-'),
-              matchedDay = days.filter(function(day){
+            matchedDay = days.filter(function (day) {
                 return day.date === currentDate;
-              })[0] || days.filter(function(day){
+              })[0] || days.filter(function (day) {
                 return day.id === profileDayId;
               })[0];
 
@@ -290,25 +302,25 @@
         }
 
         var self = this,
-            evtDays = evt.detail.response.days,
-            startDay;
+          evtDays = evt.detail.response.days,
+          startDay;
 
         // initial redirect
         if ((this.route.prefix + this.route.path) === '/') {
           startDay = retrieveStartDay(evtDays, this.userProfile.day);
           this.$.profile.updateProfile({day: startDay.id});
-          this.set('route.path', '/time-schedule/'+ startDay.id);
+          this.set('route.path', '/time-schedule/' + startDay.id);
         }
       },
 
       _getNormPage: function (pageName, path) {
 
-        if (path.indexOf('time-schedule/') !== -1){
-          this.userProfile.day = +path.substring(path.length-1);
+        if (path.indexOf('time-schedule/') !== -1) {
+          this.userProfile.day = +path.substring(path.length - 1);
         }
 
         if (pageName === 'time-schedule') {
-          return 'time-schedule-'+ this.userProfile.day;
+          return 'time-schedule-' + this.userProfile.day;
         }
         return pageName;
       },
@@ -317,16 +329,15 @@
         this.page = '404';
       },
 
-      _onUserProfileUpdate: function(event){
+      _onUserProfileUpdate: function (event) {
         this.$.profile.updateProfile(event.detail);
       },
 
       _classForDrawerDay: function (item) {
-        return 'day-'+item.id;
+        return 'day-' + item.id;
       },
 
     });
-
 
 
   </script>
