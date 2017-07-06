@@ -1,4 +1,3 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
@@ -26,7 +25,7 @@
 <dom-module id="summit-app">
   <template>
     <style>
-      :host {
+      :host > * {
         --app-primary-color: #4285f4;
         --app-secondary-color: black;
         --app-highlight-color: #daf2fa;
@@ -113,32 +112,35 @@
       data="{{routeData}}"
       tail="{{subroute}}"></app-route>
 
-    <iron-ajax url="/data/events.json" last-response="{{eventData}}" on-response="_onEventDataResponse"
+    <iron-ajax url$="[[rootPath]]../data/events.json" last-response="{{eventData}}" on-response="_onEventDataResponse"
                auto></iron-ajax>
+
+
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
       <app-drawer id="drawer">
         <app-toolbar>
-          <img class="communities" src="/images/LocalCommunities_DE.png">
+          <img class="communities" src$="[[importPath]]../images/LocalCommunities_DE.png">
           Summit
         </app-toolbar>
 
         <iron-selector selected="[[normPage]]" attr-for-selected="name" class="drawer-list" role="navigation">
 
           <div><!--Belive it or not, but lack of this empty div breaks layout (only when dom-repeat is on top)--></div>
-
-          <template is="dom-repeat" items="[[eventData.days]]" initial-count="1">
-            <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
-              <paper-icon-item>
-                <iron-icon class$="[[_classForDrawerDay(item)]]" icon="today" item-icon></iron-icon>
-                <paper-item-body two-line>
-                  <div>[[item.name]]</div>
-                  <div secondary>[[item.dayOfWeek]]</div>
-                </paper-item-body>
-              </paper-icon-item>
-            </a>
-          </template>
+          <dom-repeat>
+            <template is="dom-repeat" items="[[eventData.days]]" initial-count="1">
+              <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
+                <paper-icon-item>
+                  <iron-icon class$="[[_classForDrawerDay(item)]]" icon="today" item-icon></iron-icon>
+                  <paper-item-body two-line>
+                    <div>[[item.name]]</div>
+                    <div secondary>[[item.dayOfWeek]]</div>
+                  </paper-item-body>
+                </paper-icon-item>
+              </a>
+            </template>
+          </dom-repeat>
 
           <a name="pick-stream" href="/pick-stream">
             <paper-icon-item>
@@ -173,13 +175,13 @@
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
             <div main-title>Summit App</div>
-            <img height="20px" src="../images/logo-capgemini-white.png">
+            <img height="20px" src$="[[importPath]]../images/logo-capgemini-white.png">
             <push-activation id="pushActivation"></push-activation>
           </app-toolbar>
         </app-header>
 
         <iron-pages
-          selected="[[page]]"
+          selected="pick-stream"
           attr-for-selected="name"
           fallback-selection="404"
           role="main">
@@ -231,7 +233,6 @@
         '_routePageChanged(routeData.page)',
       ],
 
-
       ready: function () {
         // listen for online/offline
         Polymer.RenderStatus.afterNextRender(this, function () {
@@ -243,10 +244,12 @@
       },
 
       _routePageChanged: function (page) {
-        this.page = page || 'time-schedule';
+        if (this.page !== undefined) {
+          this.page = page || 'time-schedule';
 
-        if (!this.$.drawer.persistent) {
-          this.$.drawer.close();
+          if (!this.$.drawer.persistent) {
+            this.$.drawer.close();
+          }
         }
       },
 
@@ -322,6 +325,7 @@
         if (pageName === 'time-schedule') {
           return 'time-schedule-' + this.userProfile.day;
         }
+
         return pageName;
       },
 

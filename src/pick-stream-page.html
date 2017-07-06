@@ -1,4 +1,3 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html"> -->
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
@@ -67,7 +66,8 @@
     </div>
 
       <div role="listbox">
-        <template is="dom-repeat" items="{{_getStreams(eventData)}}" initial-count="1">
+        <dom-repeat>
+        <template items="{{_getStreams(eventData)}}" initial-count="1">
           <div class="card">
 
           <paper-item>
@@ -97,6 +97,7 @@
               </div>
             </template>
 
+
             <template is="dom-if" if="{{item.image}}">
               <img style="max-width: 100%;" src="{{item.image}}" alt="">
             </template>
@@ -117,6 +118,7 @@
 
 
         </template>
+      </dom-repeat>
       </div>
 
   </template>

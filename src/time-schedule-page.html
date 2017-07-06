@@ -1,5 +1,3 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
@@ -73,7 +71,7 @@
         };
       }
       .item {
-        @apply(--layout-horizontal);
+        @apply --layout-horizontal;
         padding: 5px;
         background-color: white;
         cursor: pointer;
@@ -92,8 +90,8 @@
       }
       .pad {
         padding: 0 10px;
-        @apply(--layout-flex);
-        @apply(--layout-vertical);
+        @apply --layout-flex;
+        @apply --layout-vertical;
       }
       .primary {
         font-size: 16px;
@@ -129,7 +127,7 @@
 
     </style>
 
-
+<h1>Hallo</h1>
     <app-route
         route="{{route}}"
         pattern="/:day"
@@ -151,59 +149,76 @@
 
              <div class="avatar">
                <span class="hour">[[item.startTime]]</span>
-
+            <dom-if>
                <template is="dom-if" if="{{_isLectureAll(item)}}">
                  <iron-icon icon="account-balance"></iron-icon>
                </template>
+             </dom-if>
+             <dom-if>
                <template is="dom-if" if="{{_isLectureStream(item)}}">
                  <iron-icon icon="chrome-reader-mode"></iron-icon>
                </template>
+            </dom-if>
+            <dom-if>
                <template is="dom-if" if="{{_isLecturePlaceholder(item)}}">
                  <iron-icon icon="fingerprint"></iron-icon>
                </template>
+            </dom-if>
+            <dom-if>
                <template is="dom-if" if="{{_isOrg(item)}}">
                  <iron-icon icon="content-paste"></iron-icon>
                </template>
+            </dom-if>
+            <dom-if>
                <template is="dom-if" if="{{_isFoodTime(item)}}">
                  <iron-icon icon="maps:local-dining"></iron-icon>
                </template>
+            </dom-if>
+            <dom-if>
                <template is="dom-if" if="{{_isCoffeeTime(item)}}">
                  <i class="coffee"></i>
                </template>
-             </div>
+            </dom-if>
+            </div>
 
              <div class="pad">
                <div class="primary">
                  <span>[[item.name]]</span>
                  <span class="duration">([[_calcDuration(item)]])</span>
                </div>
-
+               <dom-if>
                <template is="dom-if" if="{{!_hasLongDescription(item)}}">
                  <div class="shortTextOnly">[[_getShortDescription(item)]]</div>
                </template>
+               </dom-if>
 
+               <dom-if>
                <template is="dom-if" if="{{_hasLongDescription(item)}}">
+                 <dom-if>
                  <template is="dom-if" if="{{!selected}}">
                    <div class="shortText">[[_getShortDescription(item)]]</div>
                  </template>
-
+                 </dom-if>
                 <div class="longText">[[item.description]]</div>
               </template>
+              </dom-if>
 
-
+              <dom-if>
               <template is="dom-if" if="{{item.presenters.length}}">
                 <div class="presenter">
                   <iron-icon icon="account-circle"></iron-icon>
                   {{_getPresenters(item, eventData)}}
                 </div>
               </template>
-
+              </dom-if>
+              <dom-if>
               <template is="dom-if" if="{{item.room}}">
                 <div class="room">
                   {{_getRoomName(item, eventData)}}
                   <iron-icon icon="event-seat"></iron-icon>
                 </div>
               </template>
+              </dom-if>
 
              </div>
 
@@ -250,7 +265,9 @@
         // needed for iron-list
         attached: function() {
           // Use the document element
-          this.$.list.scrollTarget = this.$.scrollRoot;
+          Polymer.RenderStatus.beforeNextRender(this, function() {
+            this.$.list.scrollTarget = this.$.scrollRoot;
+          });
         },
 
         ////////////////////////////////////////////////////
@@ -407,9 +424,6 @@
         _isCoffeeTime: function(item){
           return item.labels.indexOf(5)!==-1 && item.labels.indexOf(2)!==-1;
         },
-
-
-
       });
     })();
   </script>
