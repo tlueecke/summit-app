@@ -66,8 +66,7 @@
     </div>
 
       <div role="listbox">
-        <dom-repeat>
-        <template items="{{_getStreams(eventData)}}" initial-count="1">
+        <template is="dom-repeat" items="{{_getStreams(eventData)}}" initial-count="1">
           <div class="card">
 
           <paper-item>
@@ -117,8 +116,7 @@
         </div>
 
 
-        </template>
-      </dom-repeat>
+      </template>
       </div>
 
   </template>

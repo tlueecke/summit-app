@@ -16,11 +16,17 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
-<link rel="import" href="./my-icons.html">
 
 <link rel="import" href="./components/user-profile.html">
 <link rel="import" href="./components/shop-snackbar.html">
 <link rel="import" href="./push-activation.html">
+<link rel="import" href="./pick-stream-page.html">
+<link rel="import" href="./time-schedule-page.html">
+<link rel="import" href="./404-page.html">
+<link rel="import" href="./my-icons.html">
+<link rel="import" href="./faq-page.html">
+<link rel="import" href="./shared-styles.html">
+
 
 <dom-module id="summit-app">
   <template>
@@ -112,16 +118,16 @@
       data="{{routeData}}"
       tail="{{subroute}}"></app-route>
 
-    <iron-ajax url$="[[rootPath]]../data/events.json" last-response="{{eventData}}" on-response="_onEventDataResponse"
+    <iron-ajax url$="[[rootPath]]/data/events.json" last-response="{{eventData}}" on-response="_onEventDataResponse"
                auto></iron-ajax>
 
 
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
-      <app-drawer id="drawer">
+      <app-drawer slot="drawer" id="drawer">
         <app-toolbar>
-          <img class="communities" src$="[[importPath]]../images/LocalCommunities_DE.png">
+          <img class="communities" src$="[[rootPath]]/images/LocalCommunities_DE.png">
           Summit
         </app-toolbar>
 
@@ -175,20 +181,20 @@
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
             <div main-title>Summit App</div>
-            <img height="20px" src$="[[importPath]]../images/logo-capgemini-white.png">
+            <img height="20px" src$="[[rootPath]]/images/logo-capgemini-white.png">
             <push-activation id="pushActivation"></push-activation>
           </app-toolbar>
         </app-header>
 
         <iron-pages
-          selected="pick-stream"
+          selected="[[routeData.page]]"
           attr-for-selected="name"
           fallback-selection="404"
           role="main">
-          <summit-pick-stream name="pick-stream" event-data="[[eventData]]"
-                              current-profile="[[userProfile]]"></summit-pick-stream>
           <summit-time-schedule name="time-schedule" event-data="[[eventData]]" current-profile="[[userProfile]]"
                                 route="{{subroute}}"></summit-time-schedule>
+          <summit-pick-stream name="pick-stream" event-data="[[eventData]]"
+                              current-profile="[[userProfile]]"></summit-pick-stream>
           <summit-faq name="faq"></summit-faq>
           <summit-404 name="404"></summit-404>
         </iron-pages>
