@@ -1,0 +1,28 @@
+[
+  {
+    "id" : 1,
+    "name" : "Web_Innovations",
+    "mimeType" : "application/pdf",
+    "description" : "The browser - our new application container. Embrace Web APIs.",
+    "authors" : [1],
+    "accessCode" : "abc@123",
+    "event" : 7
+  }, {
+    "id" : 2,
+    "name" : "Digital_Transformation_of_the_advertising_sector",
+    "mimeType" : "application/mspowerpoint",
+    "description" : "Description for 'Digital Transformation of the advertising sector through data-driven marketing'",
+    "authors" : [16],
+    "accessCode" : "xyz#456",
+    "event" : 8
+
+  }, {
+    "id" : 3,
+    "name" : "Digital_Approach_within_Capgemini_Consulting",
+    "mimeType" : "application/pdf",
+    "description" : "How does CC collaborate with clients to shape his digital agenda",
+    "authors" : [15],
+    "accessCode" : "ocp?789",
+    "event" : 107
+  }
+]
