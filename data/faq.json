@@ -1,0 +1,13 @@
+{
+  "place" : "<please enter place of event here in faq.json>",
+  "address" : {
+        "street" : "<please enter street in faq.json>",
+        "zipCode" : "64546",
+        "city" : "Mörfelden-Walldorf"
+  },
+  "location" : {
+    "latitude" : 49.9845645,
+    "longitude" : 8.5855526
+  },
+  "phoneNumber" : "+49 06105 2040"
+}

@@ -61,7 +61,9 @@
         height: 250px;
       }
 
-    </style>
+</style>
+
+      <iron-ajax url$="[[rootPath]]/data/faq.json" last-response="{{faqData}}"></iron-ajax>
 
       <ul>
          <li class="where">
@@ -74,30 +76,30 @@
                <paper-icon-item class="hotel">
                    <iron-icon icon="maps:local-hotel" item-icon></iron-icon>
                    <paper-item-body two-line>
-                     <div class="first-item">NH Conference Center</div>
-                     <div>Mörfelden</div>
+                     <div class="first-item">[[faqData.place]]</div>
+                     <div>[[faqData.address.city]]</div>
                    </paper-item-body>
                </paper-icon-item>
 
                <paper-icon-item class="place">
                    <iron-icon icon="maps:place" item-icon></iron-icon>
                    <paper-item-body two-line>
-                     <div class="first-item">Hessenring 9</div>
-                     <div secondary>64546 Mörfelden-Walldorf</div>
+                     <div class="first-item">[[faqData.address.street]]</div>
+                     <div secondary>[[faqData.address.zipCode]] [[faqData.address.city]]</div>
                    </paper-item-body>
                </paper-icon-item>
 
-              <a href="tel:+49-06105-2040">
+              <a href="tel:[[faqData.phoneNumber]]">
                  <paper-icon-item class="phone">
                      <iron-icon icon="maps:local-phone" item-icon></iron-icon>
                      <paper-item-body one-line>
-                       <div class="first-item">+49 06105 2040</div>
+                       <div class="first-item">[[faqData.phoneNumber]]</div>
                      </paper-item-body>
                  </paper-icon-item>
                </a>
 
-              <google-map fit-to-marker latitude="49.9845645" longitude="8.5855526" disableDefaultUi api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
-                <google-map-marker animation="DROP" latitude="49.9845645" longitude="8.5855526" draggable="false"></google-map-marker>
+              <google-map fit-to-marker latitude="[[faqData.location.latitude]]" longitude="[[faqData.location.longitude]]" disableDefaultUi api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
+                <google-map-marker animation="DROP" latitude="[faqData.location.latitude]]" longitude="[faqData.location.longitude]]" draggable="false"></google-map-marker>
               </google-map>
 
 
