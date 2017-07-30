@@ -83,7 +83,7 @@
       }
 
       .drawer-list {
-        margin: 0 20px;
+        margin: 0;
       }
 
       .drawer-list a {
@@ -111,6 +111,11 @@
         background-color: var(--app-highlight-color);
       }
 
+      iron-icon{
+        margin: 10px;
+      }
+
+
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -135,14 +140,13 @@
 
           <div><!--Belive it or not, but lack of this empty div breaks layout (only when dom-repeat is on top)--></div>
 
-          <a name="pick-stream" href="/start-page">
+          <a name="start-page" href="/start-page">
             <paper-icon-item>
               <iron-icon icon="home" item-icon></iron-icon>
               Home
             </paper-icon-item>
           </a>
 
-          <dom-repeat>
             <template is="dom-repeat" items="[[eventData.days]]" initial-count="1">
               <a name="time-schedule-[[item.id]]" href$="/time-schedule/[[item.id]]">
                 <paper-icon-item>
@@ -154,7 +158,6 @@
                 </paper-icon-item>
               </a>
             </template>
-          </dom-repeat>
 
           <a name="bazaar-area" href="/bazaar-area">
             <paper-icon-item>

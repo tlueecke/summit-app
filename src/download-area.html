@@ -6,7 +6,7 @@
 
   <template>
 
-    <style include="shared-styles">
+    <style>
 
         :host {
           display: block;
@@ -28,68 +28,52 @@
             margin-bottom: 10px;
           };
         }
+
         .item {
           @apply --layout-horizontal;
-          padding: 10px;
+          padding: 5px;
           background-color: white;
           cursor: pointer;
           border-bottom: gray 1px solid;
         }
 
-        span{
-          margin: 0px 5px;
-        }
 
         .title{
-          width: 300px;
-          margin-left: 20px;
-
+          width: 50%;
         }
 
         .presenters{
-          width: 300px;
-          margin-left: 20px;
+          width: 35%;
         }
 
-        .presenters span{
-          margin-left: 20px;
-          width: 300px;
-
+        .downloadFile{
+          width: 15%;
         }
 
-        .presenters:before{
-          content: ' | ';
-          margin-right: 20px;
+        span{
+          margin: 0px 2px;
         }
 
-        .downloadFile:before{
-          content: ' | ';
-          margin-right: 10px;
-        }
+
+
 
 
     </style>
 
-    <h1>Download Area</h1>
-
-
     <iron-ajax url$="[[rootPath]]/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
-
         <div id="scrollRoot">
         <iron-list id="list" items="[[eventData.timeSlots]]" as="item" selection-enabled multi-selection>
            <template>
              <div>
-                   <template is="dom-if" if="{{_isLecture(item)}}">
-                     <div class="item">
+                <template is="dom-if" if="{{_isLecture(item)}}">
+                <div class="item">
+                     <iron-icon icon="subject"></iron-icon>
+                   <div class="title">
+                     <span>[[item.name]]</span>
+                   </div>
 
-                         <iron-icon icon="subject"></iron-icon>
-                      <div class="title">
-                         <span>[[item.name]]</span>
-                       </div>
-
-
-                      <div class="presenters">
-                      <template is="dom-if" if="{{item.presenters.length}}">
+                   <div class="presenters">
+                     <template is="dom-if" if="{{item.presenters.length}}">
                         <iron-icon icon="account-circle"></iron-icon>
                         <span>
                           {{_getPresenters(item, eventData)}}
@@ -97,16 +81,12 @@
                       </template>
                     </div>
 
-
-
-
-                        <div class="downloadFile">
-
-                          <a href$="[[item.downloadFile]]"><iron-icon icon="file-download"></iron-icon>Download</a>
-                        </div>
-                      </div>
-                   </template>
-               </div>
+                  <div class="downloadFile">
+                    <a href$="[[item.downloadFile]]"><iron-icon icon="file-download"></iron-icon>Download</a>
+                  </div>
+                </div>
+                </template>
+            </div>
            </template>
         </iron-list>
         </div>
