@@ -26,6 +26,7 @@
     "endTime": "10:00",
     "name": "Registration",
     "description": "Please register at reception desk",
+    "downloadFile": "Registration.pdf",
     "labels": [4],
     "stream": null,
     "room": null,
@@ -351,7 +352,19 @@
   }],
 
 
-
+  "sessions":[{
+    "id": 1,
+    "name": "undefined",
+    "room": "undefined",
+    "description": "udefined",
+    "presenters": []
+  },{
+    "id": 2,
+    "name":"undefined",
+    "room": "undefined",
+    "description": "udefined",
+    "presenters": []
+  }],
 
 
   "labels": [{

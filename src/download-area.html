@@ -1,13 +1,116 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+
 <dom-module id="download-area">
 
   <template>
 
-    <style>
+    <style include="shared-styles">
+
+        :host {
+          display: block;
+          padding: 5px;
+          --iron-icon-width: 24px;
+          --iron-icon-height: 24px;
+        }
+
+        .presenter {
+          margin-top: 5px;
+        }
+
+
+        iron-list {
+          --iron-list-items-container: {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+          };
+        }
+        .item {
+          @apply --layout-horizontal;
+          padding: 10px;
+          background-color: white;
+          cursor: pointer;
+          border-bottom: gray 1px solid;
+        }
+
+        span{
+          margin: 0px 5px;
+        }
+
+        .title{
+          width: 300px;
+          margin-left: 20px;
+
+        }
+
+        .presenters{
+          width: 300px;
+          margin-left: 20px;
+        }
+
+        .presenters span{
+          margin-left: 20px;
+          width: 300px;
+
+        }
+
+        .presenters:before{
+          content: ' | ';
+          margin-right: 20px;
+        }
+
+        .downloadFile:before{
+          content: ' | ';
+          margin-right: 10px;
+        }
+
 
     </style>
 
     <h1>Download Area</h1>
+
+
+    <iron-ajax url$="[[rootPath]]/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
+
+        <div id="scrollRoot">
+        <iron-list id="list" items="[[eventData.timeSlots]]" as="item" selection-enabled multi-selection>
+           <template>
+             <div>
+                   <template is="dom-if" if="{{_isLecture(item)}}">
+                     <div class="item">
+
+                         <iron-icon icon="subject"></iron-icon>
+                      <div class="title">
+                         <span>[[item.name]]</span>
+                       </div>
+
+
+                      <div class="presenters">
+                      <template is="dom-if" if="{{item.presenters.length}}">
+                        <iron-icon icon="account-circle"></iron-icon>
+                        <span>
+                          {{_getPresenters(item, eventData)}}
+                        </span>
+                      </template>
+                    </div>
+
+
+
+
+                        <div class="downloadFile">
+
+                          <a href$="[[item.downloadFile]]"><iron-icon icon="file-download"></iron-icon>Download</a>
+                        </div>
+                      </div>
+                   </template>
+               </div>
+           </template>
+        </iron-list>
+        </div>
+
 
   </template>
 
@@ -21,6 +124,37 @@
 
       }
 
+      static get properties() {
+        return {
+          eventData: {
+            type: Object,
+            value: {},
+          },
+          currentProfile: {
+            type: Object,
+          },
+          routeData:{
+            type: Object,
+          },
+        };
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        this.$.list.scrollTarget = this.$.scrollRoot;
+      }
+
+      _isLecture(item){
+        return item.labels.indexOf(1)!==-1;
+      }
+
+      _getPresenters(item, eventData) {
+        return item.presenters.map(function(presenter){
+          return eventData.persons.filter(function(person){
+            return person.id ===presenter;
+          })[0].name;
+        }).join(' / ');
+      }
     }
 
     customElements.define(DownloadArea.is, DownloadArea);

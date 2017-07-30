@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -63,7 +64,7 @@
 
 </style>
 
-      <iron-ajax url$="[[rootPath]]/data/faq.json" last-response="{{faqData}}"></iron-ajax>
+      <iron-ajax url$="[[rootPath]]/data/faq.json" last-response="{{faqData}}" auto></iron-ajax>
 
       <ul>
          <li class="where">

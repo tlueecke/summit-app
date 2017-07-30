@@ -1,17 +1,65 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <dom-module id="start-page">
 
   <template>
+    <style include="shared-styles">
+      :host{
+        display: block;
+        padding: 5px;
+      }
 
-    <style>
+      .articles{
+        max-width: 800px;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      .article{
+          padding: 10px;
+          background-color: white;
+          cursor: pointer;
+          border-bottom: gray 1px solid;
+      }
+
+      .title{
+        padding: 20px;
+        background-color: #daf2fa;
+      }
+
+      .image{
+        margin: 10px;
+      }
+
+      .content{
+        margin: 10px;
+      }
+
 
     </style>
 
     <h1>Home</h1>
 
+
+  <iron-ajax url$="[[rootPath]]/data/articles.json" last-response="{{articlesData}}" auto></iron-ajax>
+  <div class="articles">
+    <dom-repeat>
+        <template is="dom-repeat" items="{{articlesData}}">
+          <div class="article">
+          <div class="title"><span># [[item.id]]</span> <span>[[item.title]]</span></div>
+          <div><img class="image" src$="[[rootPath]][[item.image]]" alt$="[[item.image]]" /></div>
+          <div class="content">[[item.content]]</div>
+        </div>
+        </template>
+    </dom-repeat>
+  </div>
+
+
   </template>
 
-  <script>
+  <script >
 
     class StartPage extends Polymer.Element  {
 
