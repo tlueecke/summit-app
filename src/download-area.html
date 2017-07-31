@@ -54,9 +54,10 @@
           margin: 0px 2px;
         }
 
-
-
-
+        a{
+          text-decoration: none;
+          color: #000;
+        }
 
     </style>
 
@@ -125,7 +126,7 @@
       }
 
       _isLecture(item){
-        return item.labels.indexOf(1)!==-1;
+          return item.downloadFile && item.labels.indexOf(1)!==-1;
       }
 
       _getPresenters(item, eventData) {

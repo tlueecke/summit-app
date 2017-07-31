@@ -26,7 +26,6 @@
     "endTime": "10:00",
     "name": "Registration",
     "description": "Please register at reception desk",
-    "downloadFile": "Registration.pdf",
     "labels": [4],
     "stream": null,
     "room": null,
@@ -38,6 +37,7 @@
     "endTime": "10:15",
     "name": "Welcome + Organization",  "description": "Hello world",
     "labels": [1],
+    "downloadFile": "Welcome_Organization.pdf",
     "stream": null,
     "room": 1,
     "presenters": [11, 1]
@@ -49,6 +49,7 @@
     "name": "CG-Architects gain Visibility",
     "description": "Approach and activities 2017 to achieve more visibility of Capgemini Architecture & Engineering expertise in the Apps DE market.",
     "labels": [1],
+    "downloadFile": "CG-Architects_gain_Visibility.pdf",
     "stream": null,
     "room": 1,
     "presenters": [14]
