@@ -10,18 +10,7 @@
     "twitter" : "https://twitter.com/search?q=%23CAS2017DE"
   },
 
-  "faq" : {
-    "place" : "NH Conference Center",
-    "address" : {
-          "street" : "Hessenring 9",
-          "zipCode" : "64546",
-          "city" : "Mörfelden-Walldorf"
-    },
-    "location" : {
-      "latitude" : 49.9845645,
-      "longitude" : 8.5855526
-    },
-    "phoneNumber" : "+49 06105 2040"
+  "download" : {
+    "password": "abc@123"
   }
-
 }

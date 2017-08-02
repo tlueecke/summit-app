@@ -1,6 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+
 
 <dom-module id="download-area">
 
@@ -18,8 +20,6 @@
         .presenter {
           margin-top: 5px;
         }
-
-
         iron-list {
           --iron-list-items-container: {
             max-width: 800px;
@@ -38,30 +38,83 @@
         }
 
 
-        .title{
+        .title {
           width: 50%;
         }
 
-        .presenters{
+        .presenters {
           width: 35%;
         }
 
-        .downloadFile{
+        .downloadFile {
           width: 15%;
         }
 
-        span{
+        span {
           margin: 0px 2px;
         }
 
-        a{
+        a {
           text-decoration: none;
           color: #000;
         }
 
+        #pwd {
+          width: 500px;
+          margin: 25px auto;
+          border: 1px solid #4285f4;
+        }
+
+        .login {
+          text-align: center;
+          padding: 10px;
+          background-color: #daf2fa;
+          border-bottom: 1px solid #4285f4;
+        }
+
+        .formTitle {
+          font-size: 25px;
+          margin: auto;
+        }
+
+        .formSubtitle {
+          font-size: 15px;
+          margin: auto;
+        }
+
+        form {
+          width: 400px;
+          margin: 30px auto;
+        }
+
+        #passwordInput {
+          padding : 5px;
+          margin: 5px;
+          width: 200px;
+        }
+
+        .submit {
+          padding : 5px;
+          margin: 5px;
+          width: 75px;
+        }
+
     </style>
 
+    <iron-ajax url$="[[rootPath]]/data/general-settings.json" last-response="{{settings}}" auto></iron-ajax>
+
+    <div id="pwd">
+      <div class="login"><div class="formTitle">Restricted Area</div><div class="formSubtitle">You must enter the password to access download area</div></div>
+      <form action="download-area" methd="post">
+        <label for="password">
+          Password : <input id="passwordInput" type="password" value="{{password::input}}" on-keypress="disableValidator">
+        </label>
+        <input class ="submit" value="Enter" type="submit" on-click="checkPassword" password$="{{settings.download.password}}">
+      </form>
+    </div>
+
     <iron-ajax url$="[[rootPath]]/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
+
         <div id="scrollRoot">
         <iron-list id="list" items="[[eventData.timeSlots]]" as="item" selection-enabled multi-selection>
            <template>
@@ -117,13 +170,20 @@
           routeData:{
             type: Object,
           },
+          password:{
+            type: String,
+          },
         };
       }
+
 
       connectedCallback() {
         super.connectedCallback();
         this.$.list.scrollTarget = this.$.scrollRoot;
+        Polymer.dom(this.root).removeChild(this.$.scrollRoot);
       }
+
+
 
       _isLecture(item){
           return item.downloadFile && item.labels.indexOf(1)!==-1;
@@ -136,6 +196,22 @@
           })[0].name;
         }).join(' / ');
       }
+
+      checkPassword(e){
+          var pwd = e.target.getAttribute('password');
+          if(this.password == pwd){
+            Polymer.dom(this.root).removeChild(this.$.pwd);
+            Polymer.dom(this.root).appendChild(this.$.scrollRoot);
+          }else{
+            this.password = "";
+            this.$.passwordInput.setCustomValidity("Invalid password, please Try again.");
+          }
+      }
+
+      disableValidator(){
+        this.$.passwordInput.setCustomValidity("");
+      }
+
     }
 
     customElements.define(DownloadArea.is, DownloadArea);
