@@ -20,7 +20,6 @@
         --iron-icon-width: 24px;
         --iron-icon-height: 24px;
       }
-
       .top-sticker {
         position: fixed;
         right: 20px;
@@ -53,17 +52,13 @@
         float: right;
         padding-right: 10px;
       }
-
       .room {
         text-align: right;
         color: gray;
       }
-
       .presenter {
         margin-top: 5px;
       }
-
-
       iron-list {
         --iron-list-items-container: {
           max-width: 800px;
@@ -105,7 +100,6 @@
         color: #b6b6b6;
         font-weight: normal;
       }
-
       .shortText, .longText, .shortTextOnly {
         font-size: 14px;
       }
@@ -126,8 +120,6 @@
       .item.expanded:hover .longText::after {
         content: ' [–]';
       }
-
-
     </style>
 
     <app-route
@@ -235,18 +227,13 @@
   </template>
 
   <script>
-
     (function() {
-
       var SHORT_DESC_MAX = 50;
-
       function timeToIntArray(hourStr){
         return hourStr.split(':').map(function(str){return +str})
       }
-
       Polymer({
         is: 'summit-time-schedule',
-
         properties: {
           eventData: {
             type: Object,
@@ -263,7 +250,6 @@
             computed: '_getDay(eventData, routeData)',
           }
         },
-
         // needed for iron-list
         attached: function() {
           // Use the document element
@@ -271,9 +257,7 @@
             this.$.list.scrollTarget = this.$.scrollRoot;
           });
         },
-
         ////////////////////////////////////////////////////
-
         _getDay: function(eventData, routeData) {
           if (!eventData.days) {
             return {};
@@ -283,30 +267,24 @@
                 .filter(function(day) {
                   return day.id === +routeData.day;
                 })[0];
-
           if (!matchedDay){
             //this.set('route.path', '/' + firstDay.id);
             return firstDay;
           }
           return matchedDay;
         },
-
         _getTimeSlots: function(eventData, profile, activeDay) {
-
           function startTimeComparator(ts1, ts2){
             var hour1 = timeToIntArray(ts1.startTime),
                 hour2 = timeToIntArray(ts2.startTime);
             return (hour1[0]+hour1[1]/60) - (hour2[0]+hour2[1]/60);
           }
-
           function generateMissingLectures(sortedTsByDayAndStream){
             var missingSlots = [],
                 currentSlot, nextSlot;
-
             for (var i=0; i<tsByDayAndStream.length-1; i++) {
                 currentSlot = tsByDayAndStream[i],
                 nextSlot = tsByDayAndStream[i+1];
-
                 if (currentSlot.endTime !== nextSlot.startTime) {
                   missingSlots.push({
                     onDay: activeDay.id,
@@ -323,13 +301,10 @@
             }
             return missingSlots;
           }
-
           // ---------------------------------------------
-
           if (!eventData.timeSlots) {
             return [];
           }
-
           var tsByDayAndStream = eventData.timeSlots
             .filter(function(timeSlot) {
               return timeSlot.onDay === activeDay.id;
@@ -338,23 +313,18 @@
                 return !timeSlot.stream || timeSlot.stream === profile.stream;
             }).sort(startTimeComparator),
             missingSlots = generateMissingLectures(tsByDayAndStream);
-
             return tsByDayAndStream.concat(missingSlots)
               .sort(startTimeComparator);
         },
-
         _getRoomName: function(item, eventData) {
           var matchedRoom = eventData.rooms.filter(function(room){
               return room.id === item.room;
           })[0];
-
           if (!matchedRoom) {
             return '';
           }
           return matchedRoom.name;
         },
-
-
         _getPresenters: function(item, eventData) {
           return item.presenters.map(function(presenter){
             return eventData.persons.filter(function(person){
@@ -362,19 +332,14 @@
             })[0].name;
           }).join(' / ');
         },
-
         ////////////////////////////////////////////////////
-
         _classForItem: function(item, selected) {
           return selected ? 'item expanded' : 'item';
         },
-
         _classForTopSticker: function(day) {
           return 'top-sticker day-bg-' + day.id;
         },
-
         ////////////////////////////////////////////////////
-
         _getShortDescription: function(timeSlot) {
           if (!timeSlot.description){
             return "";
@@ -382,29 +347,22 @@
           var suffix = this._hasLongDescription(timeSlot) ? '...' : '';
           return timeSlot.description.substring(0, SHORT_DESC_MAX) + suffix;
         },
-
         _hasLongDescription: function(timeSlot) {
           if (!timeSlot.description){
             return false;
           }
           return timeSlot.description.length > SHORT_DESC_MAX;
         },
-
-
         ////////////////////////////////////////////////////
-
         _calcDuration: function(item){
           var startTime = timeToIntArray(item.startTime),
               endTime = timeToIntArray(item.endTime),
               durationInMinutes = (endTime[0]*60+endTime[1]) - (startTime[0]*60+startTime[1]),
               hours = Math.floor(durationInMinutes/60),
               minutes =  durationInMinutes % 60;
-
           return (hours ? (hours + 'h ') : '') +(minutes ? (minutes + 'm') : '');
         },
-
         // Icons
-
         _isLectureAll: function(item){
           return item.labels.indexOf(1)!==-1 && !item.stream;
         },

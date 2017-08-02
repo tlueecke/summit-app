@@ -9,14 +9,12 @@
   <template>
 
     <style>
-
         :host {
           display: block;
           padding: 5px;
           --iron-icon-width: 24px;
           --iron-icon-height: 24px;
         }
-
         .presenter {
           margin-top: 5px;
         }
@@ -28,7 +26,6 @@
             margin-bottom: 10px;
           };
         }
-
         .item {
           @apply --layout-horizontal;
           padding: 5px;
@@ -36,69 +33,58 @@
           cursor: pointer;
           border-bottom: gray 1px solid;
         }
-
-
         .title {
           width: 50%;
         }
-
         .presenters {
           width: 35%;
         }
-
         .downloadFile {
           width: 15%;
         }
-
         span {
           margin: 0px 2px;
         }
-
         a {
           text-decoration: none;
           color: #000;
         }
-
         #pwd {
-          width: 500px;
+          max-width: 400px;
           margin: 25px auto;
           border: 1px solid #4285f4;
         }
-
         .login {
           text-align: center;
           padding: 10px;
           background-color: #daf2fa;
           border-bottom: 1px solid #4285f4;
         }
-
         .formTitle {
           font-size: 25px;
           margin: auto;
         }
-
         .formSubtitle {
           font-size: 15px;
           margin: auto;
         }
-
         form {
-          width: 400px;
+          max-width: 300px;
           margin: 30px auto;
         }
-
+        label{
+          margin-left: 10px;
+          width: 20%;
+        }
         #passwordInput {
-          padding : 5px;
-          margin: 5px;
-          width: 200px;
+          padding : 10px;
+          width: 30%;
         }
-
         .submit {
-          padding : 5px;
-          margin: 5px;
-          width: 75px;
+          text-align: center;
+          padding : 10px;
+          width: 20%;
         }
-
     </style>
 
     <iron-ajax url$="[[rootPath]]/data/general-settings.json" last-response="{{settings}}" auto></iron-ajax>
@@ -149,15 +135,10 @@
   </template>
 
   <script>
-
     class DownloadArea extends Polymer.Element  {
-
       static get is(){
-
         return "download-area";
-
       }
-
       static get properties() {
         return {
           eventData: {
@@ -175,20 +156,14 @@
           },
         };
       }
-
-
       connectedCallback() {
         super.connectedCallback();
         this.$.list.scrollTarget = this.$.scrollRoot;
         Polymer.dom(this.root).removeChild(this.$.scrollRoot);
       }
-
-
-
       _isLecture(item){
           return item.downloadFile && item.labels.indexOf(1)!==-1;
       }
-
       _getPresenters(item, eventData) {
         return item.presenters.map(function(presenter){
           return eventData.persons.filter(function(person){
@@ -196,7 +171,6 @@
           })[0].name;
         }).join(' / ');
       }
-
       checkPassword(e){
           var pwd = e.target.getAttribute('password');
           if(this.password == pwd){
@@ -207,15 +181,11 @@
             this.$.passwordInput.setCustomValidity("Invalid password, please Try again.");
           }
       }
-
       disableValidator(){
         this.$.passwordInput.setCustomValidity("");
       }
-
     }
-
     customElements.define(DownloadArea.is, DownloadArea);
-
   </script>
 
 </dom-module>
