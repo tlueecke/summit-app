@@ -8,7 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-
 <dom-module id="summit-404">
   <template>
     <style>
@@ -27,8 +26,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
-    Polymer({
-      is: 'summit-404',
-    });
+    class Summit404 extends Polymer.Element  {
+
+      static get is(){
+        return "summit-404";
+      }
+    }
+
+    // Associate the Summit404 class with the summit-404 element
+    customElements.define(Summit404.is, Summit404);
   </script>
+
 </dom-module>

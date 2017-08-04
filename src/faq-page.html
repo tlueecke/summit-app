@@ -9,9 +9,9 @@
 
 <link rel="import" href="shared-styles.html">
 
-
 <dom-module id="summit-faq">
   <template>
+
     <style include="shared-styles">
       :host {
         display: block;
@@ -34,10 +34,14 @@
       iron-icon {
         height: 35px;
         width: 35px;
+        margin-right: 20px;
+        margin-bottom: 5px;
       }
 
       .first-item {
+        font-size: 18px;
         font-weight: bold;
+        margin-bottom: 5px;
       }
 
       a {
@@ -62,59 +66,75 @@
         height: 250px;
       }
 
-</style>
+      h1{
+        margin: 0;
+      }
 
-      <iron-ajax url$="[[rootPath]]/data/faq.json" last-response="{{faqData}}" auto></iron-ajax>
+    </style>
+
+    <iron-ajax url$="[[rootPath]]/data/faq.json" last-response="{{faqData}}" auto></iron-ajax>
 
       <ul>
-         <li class="where">
-           <div class="card">
-               <h1>Where do we meet?</h1>
-               <span>Please find below all location information followed by a map.</span>
+        <li class="where">
+          <div class="card">
+            <h1>Where do we meet?</h1>
+            <span>Please find below all location information followed by a map.</span>
+            <hr>
 
-               <hr>
+            <!-- START OF HOTEL ITEM -->
+            <paper-icon-item class="hotel">
+              <iron-icon icon="maps:local-hotel" item-icon></iron-icon>
+              <paper-item-body two-line>
+                <div class="first-item">[[faqData.place]]</div>
+                <div>[[faqData.address.city]]</div>
+              </paper-item-body>
+            </paper-icon-item>
+            <!-- END OF HOTEL ITEM -->
 
-               <paper-icon-item class="hotel">
-                   <iron-icon icon="maps:local-hotel" item-icon></iron-icon>
-                   <paper-item-body two-line>
-                     <div class="first-item">[[faqData.place]]</div>
-                     <div>[[faqData.address.city]]</div>
-                   </paper-item-body>
-               </paper-icon-item>
+            <!-- START OF PLACE ITEM -->
+            <paper-icon-item class="place">
+              <iron-icon icon="maps:place" item-icon></iron-icon>
+              <paper-item-body two-line>
+                <div class="first-item">[[faqData.address.street]]</div>
+                <div secondary>[[faqData.address.zipCode]] [[faqData.address.city]]</div>
+              </paper-item-body>
+            </paper-icon-item>
+            <!-- END OF PLACE ITEM -->
 
-               <paper-icon-item class="place">
-                   <iron-icon icon="maps:place" item-icon></iron-icon>
-                   <paper-item-body two-line>
-                     <div class="first-item">[[faqData.address.street]]</div>
-                     <div secondary>[[faqData.address.zipCode]] [[faqData.address.city]]</div>
-                   </paper-item-body>
-               </paper-icon-item>
+            <!-- START OF PHONE NUMBER ITEM -->
+            <a href="tel:[[faqData.phoneNumber]]">
+              <paper-icon-item class="phone">
+                <iron-icon icon="maps:local-phone" item-icon></iron-icon>
+                <paper-item-body one-line>
+                  <div class="first-item">[[faqData.phoneNumber]]</div>
+                </paper-item-body>
+              </paper-icon-item>
+            </a>
+            <!-- END OF PHONE NUMBER ITEM  -->
 
-              <a href="tel:[[faqData.phoneNumber]]">
-                 <paper-icon-item class="phone">
-                     <iron-icon icon="maps:local-phone" item-icon></iron-icon>
-                     <paper-item-body one-line>
-                       <div class="first-item">[[faqData.phoneNumber]]</div>
-                     </paper-item-body>
-                 </paper-icon-item>
-               </a>
-
-              <google-map fit-to-marker latitude="[[faqData.location.latitude]]" longitude="[[faqData.location.longitude]]" disableDefaultUi api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
-                <google-map-marker animation="DROP" latitude="[faqData.location.latitude]]" longitude="[faqData.location.longitude]]" draggable="false"></google-map-marker>
-              </google-map>
-
+            <!-- START OF GOOGLE MAP ELEMENT -->
+            <google-map fit-to-marker latitude="[[faqData.location.latitude]]" longitude="[[faqData.location.longitude]]" disableDefaultUi api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
+              <google-map-marker animation="DROP" latitude="[faqData.location.latitude]]" longitude="[faqData.location.longitude]]" draggable="false"></google-map-marker>
+            </google-map>
+            <!-- END OF GOOGLE MAP ELEMENT -->
 
            </div>
          </li>
      </ul>
 
-
-
   </template>
 
   <script>
-    Polymer({
-      is: 'summit-faq',
-    });
+
+    class SummitFaq extends Polymer.Element  {
+
+      static get is(){
+        return "summit-faq";
+      }
+    }
+
+    // Associate the SummitFaq class with the summit-faq element
+    customElements.define(SummitFaq.is, SummitFaq);
+
   </script>
 </dom-module>

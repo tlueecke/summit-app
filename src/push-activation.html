@@ -24,18 +24,29 @@
   </template>
 
   <script>
-    Polymer({
-      is: 'push-activation',
+    class PushActivation extends Polymer.Element  {
 
-      properties: {
-        _supportsPush: {
-          type: Boolean,
-          value: false
+      static get is(){
+        return "push-activation";
+      }
+
+      static get properties() {
+        return {
+          _supportsPush: {
+            type: Boolean,
+            value: false
+          },
+          _isSubscribed: {
+            value: false
+          },
+          _publicServerKey: {
+            value: 'BPOOvDThOUuSxiC-DuMv-WXG0XbSCwKR6Jux0CkyeyZ86OMF2U64VYKksNCJKoJdq1ISzYKfCUUxB6hKM0zeNGA'
+          }
         }
-      },
+      }
 
       // public API
-      initialize: function () {
+      initialize() {
         if ('serviceWorker' in navigator && 'PushManager' in window) {
           this._supportsPush = true;
 
@@ -55,15 +66,9 @@
         } else {
           console.error('Push notification NOT supported!');
         }
-      },
+      }
 
-      // Internal
-
-      _isSubscribed: false,
-
-      _publicServerKey: 'BPOOvDThOUuSxiC-DuMv-WXG0XbSCwKR6Jux0CkyeyZ86OMF2U64VYKksNCJKoJdq1ISzYKfCUUxB6hKM0zeNGA',
-
-      _updateSubscriptionButton: function (isSubscribed) {
+      _updateSubscriptionButton(isSubscribed) {
         var btn = this.$.subscribeButton;
         this._isSubscribed = isSubscribed;
         if (isSubscribed) {
@@ -72,9 +77,9 @@
           btn.icon = 'social:notifications-off';
         }
         btn.disabled = false;
-      },
+      }
 
-      _tapSubscribePush: function (e) {
+      _tapSubscribePush(e) {
         if (!this._supportsPush)
           return;
 
@@ -87,9 +92,9 @@
               this._subscribeUser();
             }
           }.bind(this));
-      },
+      }
 
-      _unsubscribeUser: function () {
+      _unsubscribeUser() {
         navigator.serviceWorker.getRegistration()
           .then(function (swRegistration) {
             swRegistration.pushManager.getSubscription()
@@ -109,17 +114,17 @@
                 console.error('Cannot unsubscribe user ', err);
               });
           }.bind(this));
-      },
+      }
 
-      _unregisterSubscriptionOnServer: function (subscription) {
+      _unregisterSubscriptionOnServer(subscription) {
         return fetch('/unregisterSubscription', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({subscription: subscription})
         });
-      },
+      }
 
-      _subscribeUser: function () {
+      _subscribeUser() {
         navigator.serviceWorker.getRegistration()
           .then(function (swRegistration) {
             var encodedPublicServerKey = this._urlB64ToUint8Array(this._publicServerKey);
@@ -136,10 +141,10 @@
                 console.log('Unable to subscribe user ', err);
               });
           }.bind(this));
-      },
+      }
 
       // converts VAPID public key to UInt 8 bit array required to subscribe user
-      _urlB64ToUint8Array: function (base64String) {
+      _urlB64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
         const base64 = (base64String + padding)
           .replace(/\-/g, '+')
@@ -152,15 +157,19 @@
           outputArray[i] = rawData.charCodeAt(i);
         }
         return outputArray;
-      },
+      }
 
-      _registerSubscriptionOnServer: function (subscription) {
+      _registerSubscriptionOnServer(subscription) {
         return fetch('/registerSubscription', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({subscription: subscription})
         });
       }
-    });
+
+    }
+
+    customElements.define(PushActivation.is, PushActivation);
+
   </script>
 </dom-module>

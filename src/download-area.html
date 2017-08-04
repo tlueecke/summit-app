@@ -3,11 +3,8 @@
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
 
-
 <dom-module id="download-area">
-
   <template>
-
     <style>
         :host {
           display: block;
@@ -79,66 +76,77 @@
         #passwordInput {
           padding : 10px;
           width: 30%;
+          font-weight: bold;
         }
         .submit {
           text-align: center;
           padding : 10px;
           width: 20%;
+          font-weight: bold;
         }
     </style>
 
+    <!-- iron-ajax element to get data from an external file (general-settings.json) -->
     <iron-ajax url$="[[rootPath]]/data/general-settings.json" last-response="{{settings}}" auto></iron-ajax>
 
+    <!-- START OF LOGIN BOX FOR PASSWORD PROTECTED AREA -->
     <div id="pwd">
       <div class="login"><div class="formTitle">Restricted Area</div><div class="formSubtitle">You must enter the password to access download area</div></div>
       <form action="download-area" methd="post">
         <label for="password">
-          Password : <input id="passwordInput" type="password" value="{{password::input}}" on-keypress="disableValidator">
+          <span>Password :</span><input id="passwordInput" type="password" value="{{password::input}}" on-keypress="disableValidator">
         </label>
         <input class ="submit" value="Enter" type="submit" on-click="checkPassword" password$="{{settings.download.password}}">
       </form>
     </div>
+    <!-- END OF LOGIN BOX FOR PASSWORD PROTECTED AREA -->
 
+    <!-- iron-ajax element to get data from an external file (events.json) -->
     <iron-ajax url$="[[rootPath]]/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
 
-        <div id="scrollRoot">
-        <iron-list id="list" items="[[eventData.timeSlots]]" as="item" selection-enabled multi-selection>
-           <template>
-             <div>
-                <template is="dom-if" if="{{_isLecture(item)}}">
-                <div class="item">
-                     <iron-icon icon="subject"></iron-icon>
-                   <div class="title">
-                     <span>[[item.name]]</span>
-                   </div>
-
-                   <div class="presenters">
-                     <template is="dom-if" if="{{item.presenters.length}}">
-                        <iron-icon icon="account-circle"></iron-icon>
-                        <span>
-                          {{_getPresenters(item, eventData)}}
-                        </span>
-                      </template>
-                    </div>
-
+    <!-- START OF LECTURE LIST -->
+    <div id="scrollRoot">
+      <iron-list id="list" items="[[eventData.timeSlots]]" as="item" selection-enabled multi-selection>
+        <template>
+          <div>
+            <!-- each item contains title, presenters list and Download link -->
+            <template is="dom-if" if="{{_isLecture(item)}}">
+              <div class="item">
+                <div class="title">
+                  <iron-icon icon="subject"></iron-icon>
+                  <span>[[item.name]]</span>
+                </div>
+                <div class="presenters">
+                  <iron-icon icon="account-circle"></iron-icon>
+                  <template is="dom-if" if="{{item.presenters.length}}">
+                    <span>
+                      {{_getPresenters(item, eventData)}}
+                    </span>
+                  </template>
+                  </div>
                   <div class="downloadFile">
-                    <a href$="[[item.downloadFile]]"><iron-icon icon="file-download"></iron-icon>Download</a>
+                    <a href$="[[item.downloadFile]]">
+                      <iron-icon icon="file-download"></iron-icon>
+                      Download
+                    </a>
                   </div>
                 </div>
-                </template>
+              </template>
             </div>
            </template>
         </iron-list>
-        </div>
-
-
+      </div>
+      <!-- END OF LECTURE LIST -->
   </template>
 
   <script>
     class DownloadArea extends Polymer.Element  {
+
       static get is(){
         return "download-area";
       }
+
+      // List of properties used in data bindings
       static get properties() {
         return {
           eventData: {
@@ -156,14 +164,21 @@
           },
         };
       }
+
+      // Called when download-area element is added to summit-app.html document
       connectedCallback() {
         super.connectedCallback();
         this.$.list.scrollTarget = this.$.scrollRoot;
+        // remove download list from the DOM
         Polymer.dom(this.root).removeChild(this.$.scrollRoot);
       }
+
+      // return the item that have DownloadFile attribute and belong to lecture category
       _isLecture(item){
-          return item.downloadFile && item.labels.indexOf(1)!==-1;
+        return item.downloadFile && item.labels.indexOf(1)!==-1;
       }
+
+      // return a list of presenters for a lecture
       _getPresenters(item, eventData) {
         return item.presenters.map(function(presenter){
           return eventData.persons.filter(function(person){
@@ -171,6 +186,8 @@
           })[0].name;
         }).join(' / ');
       }
+
+      // protect the download area by a password
       checkPassword(e){
           var pwd = e.target.getAttribute('password');
           if(this.password == pwd){
@@ -178,14 +195,17 @@
             Polymer.dom(this.root).appendChild(this.$.scrollRoot);
           }else{
             this.password = "";
-            this.$.passwordInput.setCustomValidity("Invalid password, please Try again.");
+            this.$.passwordInput.setCustomValidity("Invalid password, please try again.");
           }
       }
+
+      // When the user focus on the input the Validator must vanish.
       disableValidator(){
         this.$.passwordInput.setCustomValidity("");
       }
     }
+
+    // Associate the DownloadArea class with the download-area element
     customElements.define(DownloadArea.is, DownloadArea);
   </script>
-
 </dom-module>

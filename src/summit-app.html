@@ -231,53 +231,58 @@
   </template>
 
   <script>
-    Polymer({
-      is: 'summit-app',
+    class SummitApp extends Polymer.Element{
 
+      static get is() {
+        return 'summit-app';
+      }
+/**
       listeners: {
         'update-user-profile': '_onUserProfileUpdate',
       },
-
-      properties: {
-        page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged',
-        },
-        normPage: {
-          type: String,
-          computed: '_getNormPage(page, route.path)',
-        },
-        userProfile: {
-          type: Object,
-          value: function () {
-            return {
-              stream: null,
-              day: 1
-            };
+**/
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
           },
-        },
-        eventData: {
-          type: Object,
-          value: {},
-        },
-      },
+          normPage: {
+            type: String,
+            computed: '_getNormPage(page, route.path)',
+          },
+          userProfile: {
+            type: Object,
+            value: function () {
+              return {
+                stream: null,
+                day: 1
+              };
+            },
+          },
+          eventData: {
+            type: Object,
+            value: {},
+          }
+        };
+      }
 
-      observers: [
-        '_routePageChanged(routeData.page)',
-      ],
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)'
+        ]
+      }
 
-      ready: function () {
-        // listen for online/offline
-        Polymer.RenderStatus.afterNextRender(this, function () {
-          this.listen(window, 'online', '_notifyNetworkStatus');
-          this.listen(window, 'offline', '_notifyNetworkStatus');
-          this.listen(document, 'service-worker-updated', '_notifyWorkerUpdated');
-          this.listen(document, 'service-worker-registered', '_onServiceWorkerRegistered');
-        });
-      },
+      connectedCallback() {
+        super.connectedCallback();
+        window.addEventListener('online', this._notifyNetworkStatus);
+        window.addEventListener('offline', this._notifyNetworkStatus);
+        document.addEventListener('service-worker-updated', this._notifyWorkerUpdated);
+        document.addEventListener('service-worker-registered', this._onServiceWorkerRegistered);
+      }
 
-      _routePageChanged: function (page) {
+      _routePageChanged(page) {
         if (this.page !== undefined) {
           this.page = page || 'time-schedule';
 
@@ -285,15 +290,15 @@
             this.$.drawer.close();
           }
         }
-      },
+      }
 
-      _onServiceWorkerRegistered: function () {
+      _onServiceWorkerRegistered() {
         if (this.$.pushActivation.initialize) {
           this.$.pushActivation.initialize();
         }
-      },
+      }
 
-      _notifyNetworkStatus: function () {
+      _notifyNetworkStatus() {
         var oldOffline = this.offline;
         this.offline = !navigator.onLine;
         // Show the snackbar if the user is offline when starting a new session
@@ -307,26 +312,24 @@
             'You are offline' : 'You are online';
           this._networkSnackbar.open();
         }
-      },
+      }
 
-      _notifyWorkerUpdated: function () {
+      _notifyWorkerUpdated() {
         if (!this._workerSnackbar) {
           this._workerSnackbar = document.createElement('shop-snackbar');
           Polymer.dom(this.root).appendChild(this._workerSnackbar);
         }
         Polymer.dom(this._workerSnackbar).innerHTML = 'New content available, please refresh';
         this._workerSnackbar.open();
-      },
+      }
 
-      _pageChanged: function (pageName) {
+      _pageChanged(pageName) {
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl(pageName + '-page.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
-      },
+      }
 
-      _onEventDataResponse: function (evt) {
-
-
+      _onEventDataResponse(evt) {
         function retrieveStartDay(days, profileDayId) {
           var currentDate = new Date().toISOString().substring(0, 10).split('-').reverse().join('-'),
             matchedDay = days.filter(function (day) {
@@ -348,9 +351,9 @@
           this.$.profile.updateProfile({day: startDay.id});
           this.set('route.path', '/start-page');
         }
-      },
+      }
 
-      _getNormPage: function (pageName, path) {
+      _getNormPage(pageName, path) {
 
         if (path.indexOf('time-schedule/') !== -1) {
           this.userProfile.day = +path.substring(path.length - 1);
@@ -361,22 +364,23 @@
         }
 
         return pageName;
-      },
+      }
 
-      _showPage404: function () {
+      _showPage404() {
         this.page = '404';
-      },
+      }
 
-      _onUserProfileUpdate: function (event) {
+      _onUserProfileUpdate(event) {
         this.$.profile.updateProfile(event.detail);
-      },
+      }
 
-      _classForDrawerDay: function (item) {
+      _classForDrawerDay(item) {
         return 'day-' + item.id;
-      },
+      }
 
-    });
+    }
 
+    customElements.define(SummitApp.is, SummitApp);
 
   </script>
 </dom-module>

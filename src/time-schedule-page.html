@@ -232,33 +232,41 @@
       function timeToIntArray(hourStr){
         return hourStr.split(':').map(function(str){return +str})
       }
-      Polymer({
-        is: 'summit-time-schedule',
-        properties: {
-          eventData: {
-            type: Object,
-            value: {},
-          },
-          currentProfile: {
-            type: Object,
-          },
-          routeData:{
-            type: Object,
-          },
-          day: {
-            type: Object,
-            computed: '_getDay(eventData, routeData)',
-          }
-        },
+
+      class SummitTimeSchedule extends Polymer.Element{
+
+        static get is(){
+          return 'summit-time-schedule';
+        }
+
+        static get properties(){
+          return {
+            eventData: {
+              type: Object,
+              value: {},
+            },
+            currentProfile: {
+              type: Object,
+            },
+            routeData:{
+              type: Object,
+            },
+            day: {
+              type: Object,
+              computed: '_getDay(eventData, routeData)',
+            }
+          };
+      }
+
         // needed for iron-list
-        attached: function() {
+        connectedCallback(){
+          super.connectedCallback();
           // Use the document element
-          Polymer.RenderStatus.beforeNextRender(this, function() {
-            this.$.list.scrollTarget = this.$.scrollRoot;
-          });
-        },
+          this.$.list.scrollTarget = this.$.scrollRoot;
+        }
+
         ////////////////////////////////////////////////////
-        _getDay: function(eventData, routeData) {
+        _getDay(eventData, routeData) {
           if (!eventData.days) {
             return {};
           }
@@ -272,8 +280,9 @@
             return firstDay;
           }
           return matchedDay;
-        },
-        _getTimeSlots: function(eventData, profile, activeDay) {
+        }
+
+        _getTimeSlots(eventData, profile, activeDay) {
           function startTimeComparator(ts1, ts2){
             var hour1 = timeToIntArray(ts1.startTime),
                 hour2 = timeToIntArray(ts2.startTime);
@@ -315,8 +324,9 @@
             missingSlots = generateMissingLectures(tsByDayAndStream);
             return tsByDayAndStream.concat(missingSlots)
               .sort(startTimeComparator);
-        },
-        _getRoomName: function(item, eventData) {
+        }
+
+        _getRoomName(item, eventData) {
           var matchedRoom = eventData.rooms.filter(function(room){
               return room.id === item.room;
           })[0];
@@ -324,67 +334,82 @@
             return '';
           }
           return matchedRoom.name;
-        },
-        _getPresenters: function(item, eventData) {
+        }
+
+        _getPresenters(item, eventData) {
           return item.presenters.map(function(presenter){
             return eventData.persons.filter(function(person){
               return person.id ===presenter;
             })[0].name;
           }).join(' / ');
-        },
+        }
+
         ////////////////////////////////////////////////////
-        _classForItem: function(item, selected) {
+        _classForItem(item, selected) {
           return selected ? 'item expanded' : 'item';
-        },
-        _classForTopSticker: function(day) {
+        }
+
+        _classForTopSticker(day) {
           return 'top-sticker day-bg-' + day.id;
-        },
+        }
+
         ////////////////////////////////////////////////////
-        _getShortDescription: function(timeSlot) {
+        _getShortDescription(timeSlot) {
           if (!timeSlot.description){
             return "";
           }
           var suffix = this._hasLongDescription(timeSlot) ? '...' : '';
           return timeSlot.description.substring(0, SHORT_DESC_MAX) + suffix;
-        },
-        _hasLongDescription: function(timeSlot) {
+        }
+
+        _hasLongDescription(timeSlot) {
           if (!timeSlot.description){
             return false;
           }
           return timeSlot.description.length > SHORT_DESC_MAX;
-        },
+        }
+
         ////////////////////////////////////////////////////
-        _calcDuration: function(item){
+        _calcDuration(item){
           var startTime = timeToIntArray(item.startTime),
               endTime = timeToIntArray(item.endTime),
               durationInMinutes = (endTime[0]*60+endTime[1]) - (startTime[0]*60+startTime[1]),
               hours = Math.floor(durationInMinutes/60),
               minutes =  durationInMinutes % 60;
           return (hours ? (hours + 'h ') : '') +(minutes ? (minutes + 'm') : '');
-        },
+        }
+
         // Icons
-        _isLectureAll: function(item){
+        _isLectureAll(item){
           return item.labels.indexOf(1)!==-1 && !item.stream;
-        },
-        _isLectureStream: function(item){
+        }
+
+        _isLectureStream(item){
           return item.labels.indexOf(1)!==-1 && item.stream;
-        },
-        _isLecturePlaceholder: function(item){
+        }
+
+        _isLecturePlaceholder(item){
           return item.labels.length===0 && !item.stream;
-        },
-        _isBreak: function(item){
+        }
+
+        _isBreak(item){
           return item.labels.indexOf(2)!==-1;
-        },
-        _isOrg: function(item){
+        }
+
+        _isOrg(item){
           return item.labels.indexOf(4)!==-1;
-        },
-        _isFoodTime: function(item){
+        }
+
+        _isFoodTime(item){
           return item.labels.indexOf(5)!==-1 && item.labels.indexOf(2)===-1;
-        },
-        _isCoffeeTime: function(item){
+        }
+
+        _isCoffeeTime(item){
           return item.labels.indexOf(5)!==-1 && item.labels.indexOf(2)!==-1;
-        },
-      });
+        }
+      }
+
+      customElements.define(SummitTimeSchedule.is, SummitTimeSchedule);
     })();
   </script>
 </dom-module>

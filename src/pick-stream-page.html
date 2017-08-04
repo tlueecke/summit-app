@@ -122,23 +122,29 @@
   </template>
 
   <script>
-    Polymer({
-      is: 'summit-pick-stream',
 
-      properties: {
-        eventData: Object,
-        currentProfile: Object,
-        showState: {
-          type: Object,
-          value: {},
-        }
-      },
+    class SummitPickStream extends Polymer.Element  {
 
-      _getStreams: function(eventData) {
+      static get is(){
+        return "summit-pick-stream";
+      }
+
+      static get properties() {
+        return{
+          eventData: Object,
+          currentProfile: Object,
+          showState: {
+            type: Object,
+            value: {},
+          }
+        };
+      }
+
+      _getStreams(eventData) {
         return eventData.streams || [];
-      },
+      }
 
-      _getRoomName: function(item, eventData) {
+      _getRoomName(item, eventData) {
         var matchedRoom = eventData.rooms.filter(function(room){
             return room.id === item.room;
         })[0];
@@ -147,15 +153,15 @@
           return '';
         }
         return matchedRoom.name;
-      },
+      }
 
-      _getLeaders: function(item, eventData) {
+      _getLeaders(item, eventData) {
         return item.leaders.map(function(presenter){
           return eventData.persons.filter(function(person){
             return person.id ===presenter;
           })[0].name;
         }).join(' / ');
-      },
+      }
 
       // _selectStream: function(event) {
       //   var item = event.model.item;
@@ -164,30 +170,32 @@
       //   });
       // },
 
-      _classForDescription: function(item, showState) {
+      _classForDescription(item, showState) {
         return showState[item.id] ? 'toggle-area show-descr' : 'toggle-area';
-      },
+      }
 
-      _tweetUrl: function(item) {
+      _tweetUrl(item) {
         return 'https://twitter.com/search?q=%23CAS2017DE%20%23' + item.hashtag;
-      },
+      }
 
-      _isCollapsed: function(item, showState) {
+      _isCollapsed(item, showState) {
         return !!showState[item.id];
-      },
+      }
 
-
-      _showHide: function(event) {
+      _showHide(event) {
         var item = event.model.item;
         var delta = {};
         delta[item.id] = !this.showState[item.id];
         this.set('showState', Object.assign({}, this.showState, delta));
-      },
+      }
 
       // _isStreamSelected: function(item, currentProfile) {
       //   return item.id === currentProfile.stream;
       // },
 
-    });
+    }
+    // Associate the SummitPickStream class with the summit-pick-stream element
+    customElements.define(SummitPickStream.is, SummitPickStream);
+
   </script>
 </dom-module>
