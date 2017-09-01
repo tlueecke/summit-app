@@ -25,7 +25,10 @@
     "paper-checkbox": "PolymerElements/paper-checkbox#^2.0.0",
     "paper-button": "PolymerElements/paper-button#^2.0.0",
     "paper-ripple": "PolymerElements/paper-ripple#^2.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
+    "paper-input": "PolymerElements/paper-input#^2.0.1",
+    "iron-input": "PolymerElements/iron-input#^2.0.0",
+    "app-storage": "PolymerElements/app-storage#^2.0.2"
   },
   "devDependencies": {
     "web-component-tester": "^6.0.0"

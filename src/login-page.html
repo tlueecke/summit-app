@@ -1,0 +1,139 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+
+<dom-module id="login-page">
+  <template>
+    <style>
+        :host {
+          display: block;
+          padding: 5px;
+          --iron-icon-width: 24px;
+          --iron-icon-height: 24px;
+        }
+        .presenter {
+          margin-top: 5px;
+        }
+        iron-list {
+          --iron-list-items-container: {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+          };
+        }
+        .item {
+          @apply --layout-horizontal;
+          padding: 5px;
+          background-color: white;
+          cursor: pointer;
+          border-bottom: gray 1px solid;
+        }
+        .title {
+          width: 50%;
+        }
+        .presenters {
+          width: 35%;
+        }
+        .downloadFile {
+          width: 15%;
+        }
+        span {
+          margin: 0px 2px;
+        }
+        a {
+          text-decoration: none;
+          color: #000;
+        }
+        #pwd {
+          max-width: 400px;
+          margin: 25px auto;
+          border: 1px solid #4285f4;
+        }
+        .login {
+          text-align: center;
+          padding: 10px;
+          background-color: #daf2fa;
+          border-bottom: 1px solid #4285f4;
+        }
+        .formTitle {
+          font-size: 25px;
+          margin: auto;
+        }
+        .formSubtitle {
+          font-size: 15px;
+          margin: auto;
+        }
+        form {
+          max-width: 300px;
+          margin: 30px auto;
+        }
+        label{
+          margin-left: 10px;
+          width: 20%;
+        }
+        #passwordInput {
+          padding : 10px;
+          width: 30%;
+          font-weight: bold;
+        }
+        .submit {
+          text-align: center;
+          padding : 10px;
+          width: 20%;
+          font-weight: bold;
+        }
+    </style>
+
+    <!-- START OF LOGIN BOX FOR PASSWORD PROTECTED AREA -->
+    <div id="unauthenticated">
+      <div class="login"><div class="formTitle">Restricted Area</div><div class="formSubtitle">You must enter the password to access download area</div></div>
+      <form action="/login" method="post">
+        <label for="password">
+          <!-- <span></span><input name="username" type="text" value="user" hidden> -->
+          <span>Password :</span><input id="passwordInput" name="password" type="password" value="{{password::input}}" on-keypress="disableValidator">
+        </label>
+        <input class="submit" value="Enter" type="submit">
+      </form>
+    </div>
+    <!-- END OF LOGIN BOX FOR PASSWORD PROTECTED AREA -->
+
+  </template>
+
+  <script>
+    class LoginPage extends Polymer.Element  {
+
+      static get is(){
+        return "login-page";
+      }
+
+      // List of properties used in data bindings
+      static get properties() {
+        return {
+          eventData: {
+            type: Object,
+            value: {},
+          },
+          currentProfile: {
+            type: Object,
+          },
+          routeData:{
+            type: Object,
+          },
+          password:{
+            type: String,
+          },
+        };
+      }
+
+      // When the user focus on the input the Validator must vanish.
+      disableValidator(){
+        this.$.passwordInput.setCustomValidity("");
+      }
+    }
+
+    // Associate the DownloadArea class with the download-area element
+    customElements.define(LoginPage.is, LoginPage);
+  </script>
+</dom-module>

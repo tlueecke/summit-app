@@ -1,0 +1,84 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+
+<dom-module id="speaker-list">
+  <template>
+    <style>
+    :host {
+      display: block;
+      padding: 5px;
+    }
+    #speakers {
+        max-width: 800px;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin: auto;
+    }
+    .speakerInfo {
+      padding: 5px;
+      margin: 2px;
+      float: left;
+      background-color: white;
+      cursor: pointer;
+      max-width: 250px;
+      height: 350px;
+      border: gray 1px solid;
+    }
+
+    img{
+      border: gray 1px dotted;
+    }
+
+    .speakerName{
+      font-weight: bold;
+    }
+    .speakerName, .speakerPosition{
+      display: block;
+      text-align: center;
+      margin: 5px;
+    }
+    </style>
+
+    <!-- iron-ajax element to get data from an external file (general-settings.json) -->
+    <iron-ajax url$="[[rootPath]]/data/events.json" last-response="{{events}}" auto></iron-ajax>
+    <div id="speakers">
+        <template is="dom-repeat" items="[[events.persons]]">
+          <div class="speakerInfo">
+            <div class="speakerPicture">
+              <img src$="[[rootPath]]/images/speakers/[[item.picture]]">
+            </div>
+            <span class="speakerName">[[item.name]]</span>
+            <span class="speakerPosition">[[item.desc.position]]</span>
+          </div>
+
+        </template>
+    </div>
+      </iron-list>
+
+  </template>
+
+  <script>
+    class SpeakerList extends Polymer.Element  {
+
+      static get is(){
+        return "speaker-list";
+      }
+
+      // List of properties used in data bindings
+      static get properties() {
+        return {
+          speaker: {
+            type: Object,
+            value: {},
+          }
+        };
+      }
+    }
+
+    // Associate the DownloadArea class with the download-area element
+    customElements.define(SpeakerList.is, SpeakerList);
+  </script>
+</dom-module>

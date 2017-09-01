@@ -4,19 +4,19 @@
     "name": "Day 1",
     "date": "23-03-2017",
     "dayOfWeek": "Thursday",
-    "description": "Welcome day with preliminary lectures and initial stream specific discussions. The day will close with a presentation of the stream goals."
+    "description": "<Event Day Description>"
   },{
     "id": 2,
     "name": "Day 2",
     "date": "24-03-2017",
     "dayOfWeek": "Friday",
-    "description": "Latest news on iCSD program and how last summits achievements have been used. A presentation of Enterprise iPaas digital platform and the PoV regarding digital business will be presented by a guest from CC. The majority of time will be used for work in stream sessions."
+    "description": "<Event Day Description>"
   },{
     "id": 3,
     "name": "Day 3",
     "date": "25-03-2017",
     "dayOfWeek": "Saturday",
-    "description": "A short morning welcome with an anouncement will lead us to the final stream-sessions. Afterwards each stream gets some time to present its results and outlook to the audience. Feedback and goodbye."
+    "description": "<Event Day Description>"
   }],
 
   "timeSlots": [{
@@ -35,7 +35,8 @@
     "onDay": 1,
     "startTime": "10:00",
     "endTime": "10:15",
-    "name": "Welcome + Organization",  "description": "Hello world",
+    "name": "Welcome + Organization",
+    "description": "Hello world",
     "labels": [1],
     "downloadFile": "Welcome_Organization.pdf",
     "stream": null,
@@ -46,10 +47,10 @@
     "onDay": 1,
     "startTime": "10:15",
     "endTime": "10:45",
-    "name": "CG-Architects gain Visibility",
-    "description": "Approach and activities 2017 to achieve more visibility of Capgemini Architecture & Engineering expertise in the Apps DE market.",
+    "name": "<please enter time slot name in events.json>",
+    "description": "<please enter time slot description in events.json>",
     "labels": [1],
-    "downloadFile": "CG-Architects_gain_Visibility.pdf",
+    "downloadFile": "<please enter time slot filename in events.json>",
     "stream": null,
     "room": 1,
     "presenters": [14]
@@ -64,28 +65,6 @@
     "stream": null,
     "room": null,
     "presenters": []
-  },{
-    "id": 7,
-    "onDay": 1,
-    "startTime": "13:00",
-    "endTime": "13:30",
-    "name": "Web Innovations",
-    "description": "The browser - our new application container. Embrace Web APIs.",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [1]
-  },{
-    "id": 8,
-    "onDay": 1,
-    "startTime": "13:30",
-    "endTime": "14:30",
-    "name": "Digital Transformation of the advertising sector through data-driven marketing",
-    "description": "Description for 'Digital Transformation of the advertising sector through data-driven marketing'",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [16]
   },{
     "id": 11,
     "onDay": 1,
@@ -156,34 +135,12 @@
     "onDay": 2,
     "startTime": "8:30",
     "endTime": "9:10",
-    "name": "iCSD products",
-    "description": "Report back how results from previous summit on microservices have been used in iCSD initiative.",
+    "name": "<please enter time slot name in events.json>",
+    "description": "<please enter time slot description in events.json>",
     "labels": [1],
     "stream": null,
     "room": 1,
     "presenters": [17, 18]
-  }, {
-    "id": 102,
-    "onDay": 2,
-    "startTime": "9:10",
-    "endTime": "9:30",
-    "name": "Major change in iCSD: centers",
-    "description": "Win the market challenge with strong CSD capabilities delivered by iCSD centers",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [4]
-  }, {
-   "id": 103,
-   "onDay": 2,
-   "startTime": "9:30",
-   "endTime": "10:00",
-   "name": "Enterprise iPaas",
-   "description": "News from EiPaas and a new delivery model",
-   "labels": [1],
-   "stream": null,
-   "room": 1,
-   "presenters": [12]
   }, {
    "id": 104,
    "onDay": 2,
@@ -217,17 +174,6 @@
     "stream": null,
     "room": null,
     "presenters": []
-  },{
-    "id": 107,
-    "onDay": 2,
-    "startTime": "13:00",
-    "endTime": "13:45",
-    "name": "Digital Approach within Capgemini Consulting",
-    "description": "How does CC collaborate with clients to shape his digital agenda",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [15]
   },{
     "id": 109,
     "onDay": 2,
@@ -289,8 +235,8 @@
     "onDay": 3,
     "startTime": "8:15",
     "endTime": "8:30",
-    "name": "Local Community Refreshment",
-    "description": "New refrehsing setup for local technical communities within Apps DE",
+    "name": "<please enter time slot name in events.json>",
+    "description": "<please enter time slot description in events.json>",
     "labels": [1],
     "stream": null,
     "room": 1,
@@ -391,42 +337,48 @@
     "hashtag": "webinnovation",
     "room": 4,
     "leaders": [1],
-    "description": "The web develops faster than ever. Web browsers are becoming great platforms full of new APIs which bring brand new opportunities to offer to our customers. Imagine an application runs in a web browser and is capable of working offline and synchronizing its state once online. Imagine the application behaves on your mobile as if it were a native app: you can add it to your home screen and you get push notifications. Imagine you can build reusable, browser native UI components you can share across your organization or even across the whole web world. And this is just the beginning."
+    "description": "The web develops faster than ever. Web browsers are becoming great platforms full of new APIs which bring brand new opportunities to offer to our customers. Imagine an application runs in a web browser and is capable of working offline and synchronizing its state once online. Imagine the application behaves on your mobile as if it were a native app: you can add it to your home screen and you get push notifications. Imagine you can build reusable, browser native UI components you can share across your organization or even across the whole web world. And this is just the beginning.",
+    "downloadFile": "file.pdf"
   }, {
     "id": 2,
     "name": "IT orchestration for hybrid clouds",
     "hashtag": "enterprisecloud",
     "room": 1,
     "leaders": [6, 7],
-    "description": "IT orchestration with hybrid cloud solutions will be the focus of our business, combined with IPaaS, Capgemini’s future platform to develop, execute and manage integration, our Cloud Choice offering for E2E solutions (Advise, Align Animate) and our tools for SW-Automation with DevOps, Microservices and automated provisioning."
+    "description": "IT orchestration with hybrid cloud solutions will be the focus of our business, combined with IPaaS, Capgemini’s future platform to develop, execute and manage integration, our Cloud Choice offering for E2E solutions (Advise, Align Animate) and our tools for SW-Automation with DevOps, Microservices and automated provisioning.",
+    "downloadFile": "file.pdf"
   }, {
     "id": 3,
     "name": "Engineering and digital security",
     "hashtag": "itsecurity",
     "room": 2,
     "leaders": [2, 3],
-    "description": "Prevent – Protect - Detect – Monitor. How to identify threats and find the right measures to improve security. Cybersecurity is a necessary ingredients of the digitalization. Only the trustable service will be successful. We want to define aspects in architecture and methods, where we can make a difference in security and generate a vision for our future security model."
+    "description": "Prevent – Protect - Detect – Monitor. How to identify threats and find the right measures to improve security. Cybersecurity is a necessary ingredients of the digitalization. Only the trustable service will be successful. We want to define aspects in architecture and methods, where we can make a difference in security and generate a vision for our future security model.",
+    "downloadFile": "file.pdf"
   }, {
     "id": 4,
     "name": "Let‘s Become an Architects‘ Company",
     "hashtag": "itarchitecture",
     "room": 3,
     "leaders": [4, 5],
-    "description": "Let‘s Become an Architects‘ Company! Digital transformation, Agile & DevOps, Rightshoring and Industrialization – what shapes the architects’ way they work and the architects’ company of tomorrow? Career model, certifications, trainings, roles in ACCESS – the journey already started … We create the vision for Capgemini as a company of architecture excellence!"
+    "description": "Let‘s Become an Architects‘ Company! Digital transformation, Agile & DevOps, Rightshoring and Industrialization – what shapes the architects’ way they work and the architects’ company of tomorrow? Career model, certifications, trainings, roles in ACCESS – the journey already started … We create the vision for Capgemini as a company of architecture excellence!",
+    "downloadFile": "file.pdf"
   }, {
     "id": 5,
     "name": "Transforming Business for Digital",
     "hashtag": "digitalization",
     "room": 5,
     "leaders": [7, 8],
-    "image": "/images/transform.jpg"
+    "image": "/images/transform.jpg",
+    "downloadFile": "file.pdf"
   }, {
     "id": 6,
     "name": "Industrial IoT",
     "hashtag": "IoT",
     "room": 6,
     "leaders": [9, 10],
-    "description": "IoT revolutionizes the way enterprises operate their business. Smart machines requesting maintenance the best point in time, buildings optimizing conditions like climate, temperature and other themselves, cars reserving parking places are but a few examples. We consider new IT concepts and architectures to enable powerful IoT platforms like digital twins, different types of connectivity, event processing and machine learning. We discuss the challenges in architecting and developing IoT solutions with regard to build, deploy and test."
+    "description": "IoT revolutionizes the way enterprises operate their business. Smart machines requesting maintenance the best point in time, buildings optimizing conditions like climate, temperature and other themselves, cars reserving parking places are but a few examples. We consider new IT concepts and architectures to enable powerful IoT platforms like digital twins, different types of connectivity, event processing and machine learning. We discuss the challenges in architecting and developing IoT solutions with regard to build, deploy and test.",
+    "downloadFile": "file.pdf"
   }],
   "rooms": [{
     "id": 1,
@@ -452,57 +404,129 @@
   }],
   "persons": [{
     "id": 1,
-    "name": "Marek Matczak"
+    "name": "Marek Matczak",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 2,
-    "name": "Michael Köhler"
+    "name": "Michael Köhler",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 3,
-    "name": "Marek Puchalski"
+    "name": "Marek Puchalski",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 4,
-    "name": "Thilo Hermann"
+    "name": "Thilo Hermann",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 5,
-    "name": "Andreas Hess"
+    "name": "Andreas Hess",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 6,
-    "name": "Marius Vöhringer"
+    "name": "Marius Vöhringer",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 7,
-    "name": "Gerd Pews"
+    "name": "Gerd Pews",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 8,
-    "name": "Christian Hinken"
+    "name": "Christian Hinken",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 9,
-    "name": "Rüdiger Eberlein"
+    "name": "Rüdiger Eberlein",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 10,
-    "name": "Robert Geisler"
+    "name": "Robert Geisler",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 11,
-    "name": "Marco Rose"
+    "name": "Marco Rose",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 12,
-    "name": "Alan Spittle"
+    "name": "Alan Spittle",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 13,
-    "name": "Streamleads"
+    "name": "Streamleads",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 14,
-    "name": "Thomas Heimann"
+    "name": "Thomas Heimann",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 15,
-    "name": "Tae Ho Shin"
+    "name": "Tae Ho Shin",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 16,
-    "name": "Roland Fiege"
+    "name": "Roland Fiege",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 17,
-    "name": "Iwan van der Kleijn"
+    "name": "Iwan van der Kleijn",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }, {
     "id": 18,
-    "name": "Uwe Hantzsche"
+    "name": "Uwe Hantzsche",
+    "picture": "speaker.png",
+    "desc": {
+      "position" : "<position>"
+    }
   }]
 }

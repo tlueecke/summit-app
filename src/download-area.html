@@ -2,6 +2,8 @@
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/polymer/lib/mixins/gesture-event-listeners.html">
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../bower_components/iron-cookie/iron-cookie.html">
 
 <dom-module id="download-area">
   <template>
@@ -11,9 +13,6 @@
           padding: 5px;
           --iron-icon-width: 24px;
           --iron-icon-height: 24px;
-        }
-        .presenter {
-          margin-top: 5px;
         }
         iron-list {
           --iron-list-items-container: {
@@ -38,6 +37,9 @@
         }
         .downloadFile {
           width: 15%;
+        }
+        .presenter {
+          margin-top: 5px;
         }
         span {
           margin: 0px 2px;
@@ -86,26 +88,13 @@
         }
     </style>
 
-    <!-- iron-ajax element to get data from an external file (general-settings.json) -->
-    <iron-ajax url$="[[rootPath]]/data/general-settings.json" last-response="{{settings}}" auto></iron-ajax>
-
-    <!-- START OF LOGIN BOX FOR PASSWORD PROTECTED AREA -->
-    <div id="pwd">
-      <div class="login"><div class="formTitle">Restricted Area</div><div class="formSubtitle">You must enter the password to access download area</div></div>
-      <form action="download-area" methd="post">
-        <label for="password">
-          <span>Password :</span><input id="passwordInput" type="password" value="{{password::input}}" on-keypress="disableValidator">
-        </label>
-        <input class ="submit" value="Enter" type="submit" on-click="checkPassword" password$="{{settings.download.password}}">
-      </form>
-    </div>
-    <!-- END OF LOGIN BOX FOR PASSWORD PROTECTED AREA -->
-
     <!-- iron-ajax element to get data from an external file (events.json) -->
     <iron-ajax url$="[[rootPath]]/data/events.json" last-response="{{eventData}}" auto></iron-ajax>
 
+    <iron-ajax url="http://localhost:8081" last-response="{{meta}}" on-response="_ajaxResponse" auto></iron-ajax>
+
     <!-- START OF LECTURE LIST -->
-    <div id="scrollRoot">
+    <div id="authenticated">
       <iron-list id="list" items="[[eventData.timeSlots]]" as="item" selection-enabled multi-selection>
         <template>
           <div>
@@ -137,11 +126,11 @@
         </iron-list>
       </div>
       <!-- END OF LECTURE LIST -->
-  </template>
+</template>
 
   <script>
-    class DownloadArea extends Polymer.Element  {
 
+    class DownloadArea extends Polymer.Element  {
       static get is(){
         return "download-area";
       }
@@ -153,24 +142,53 @@
             type: Object,
             value: {},
           },
-          currentProfile: {
-            type: Object,
-          },
-          routeData:{
-            type: Object,
-          },
           password:{
             type: String,
           },
+          meta:{
+            type:Object,
+            value:{},
+            notify:true
+          },
+          currentPath:{
+            type: String,
+            observer: "_currentPathChanged"
+          },
+          error: String
         };
       }
+/*
+      _ajaxResponse(e, request) {
+        var headers = request.xhr.getAllResponseHeaders();
+        console.log("headers :"  + headers);
+      }
 
+*/
       // Called when download-area element is added to summit-app.html document
       connectedCallback() {
         super.connectedCallback();
-        this.$.list.scrollTarget = this.$.scrollRoot;
+        //console.log("Cookie" + sessionStorage.getItem('success'));
+        this.$.list.scrollTarget = this.$.authenticated;
         // remove download list from the DOM
-        Polymer.dom(this.root).removeChild(this.$.scrollRoot);
+        // Polymer.dom(this.root).removeChild(this.$.authenticated);
+        // console.log(sessionStorage.getItem("session"));
+
+      }
+
+      _currentPathChanged(path){
+
+        var getCookie = function(name){
+          var value = "; " + document.cookie;
+          var parts = value.split("; " + name + "=");
+          if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+        if(getCookie("accessRight") != "yes" && this.currentPath === "download-area"){
+          Polymer.dom(this.root).removeChild(this.$.authenticated);
+            window.location.href = '/login';
+
+        }
+
       }
 
       // return the item that have DownloadFile attribute and belong to lecture category
@@ -203,6 +221,7 @@
       disableValidator(){
         this.$.passwordInput.setCustomValidity("");
       }
+
     }
 
     // Associate the DownloadArea class with the download-area element
