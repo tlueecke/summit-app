@@ -20,29 +20,6 @@
   }],
 
   "timeSlots": [{
-    "id": 1,
-    "onDay": 1,
-    "startTime": "9:30",
-    "endTime": "10:00",
-    "name": "Registration",
-    "description": "Please register at reception desk",
-    "labels": [4],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 2,
-    "onDay": 1,
-    "startTime": "10:00",
-    "endTime": "10:15",
-    "name": "Welcome + Organization",
-    "description": "Hello world",
-    "labels": [1],
-    "downloadFile": "Welcome_Organization.pdf",
-    "stream": null,
-    "room": 1,
-    "presenters": [11, 1]
-  },{
     "id": 3,
     "onDay": 1,
     "startTime": "10:15",
@@ -53,73 +30,7 @@
     "downloadFile": "<please enter time slot filename in events.json>",
     "stream": null,
     "room": 1,
-    "presenters": [14]
-  },{
-    "id": 6,
-    "onDay": 1,
-    "startTime": "12:15",
-    "endTime": "13:00",
-    "name": "Lunch",
-    "description": "Enjoy your meal",
-    "labels": [5],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 11,
-    "onDay": 1,
-    "startTime": "15:30",
-    "endTime": "15:45",
-    "name": "Coffee break",
-    "description": "Opportunity to wake up and do some networking",
-    "labels": [5, 2],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 14,
-    "onDay": 1,
-    "startTime": "17:15",
-    "endTime": "18:45",
-    "name": "Stream Goals",
-    "description": "Each stream gives a 15 minutes summary of their agenda, goals, expectations and first findings",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [13]
-  },{
-    "id": 15,
-    "onDay": 1,
-    "startTime": "18:45",
-    "endTime": "19:00",
-    "name": "Closing of Day 1",
-    "description": "Day summary and few more organisational points",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [11]
-  },{
-    "id": 16,
-    "onDay": 1,
-    "startTime": "19:00",
-    "endTime": "19:30",
-    "name": "Break",
-    "description": "",
-    "labels": [2],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 17,
-    "onDay": 1,
-    "startTime": "19:30",
-    "endTime": "21:00",
-    "name": "Dinner",
-    "description": "Enjoy your meal",
-    "labels": [5],
-    "stream": null,
-    "room": null,
-    "presenters": []
+    "presenters": [1]
   },
 
 
@@ -140,86 +51,8 @@
     "labels": [1],
     "stream": null,
     "room": 1,
-    "presenters": [17, 18]
-  }, {
-   "id": 104,
-   "onDay": 2,
-   "startTime": "10:00",
-   "endTime": "10:15",
-   "name": "Team Photo Session",
-   "description": "",
-   "labels": [1],
-   "stream": null,
-   "room": 7,
-   "presenters": []
-  }, {
-    "id": 105,
-    "onDay": 2,
-    "startTime": "10:15",
-    "endTime": "10:30",
-    "name": "Coffee break",
-    "description": "Opportunity to wake up and do some networking",
-    "labels": [5, 2],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 106,
-    "onDay": 2,
-    "startTime": "12:00",
-    "endTime": "13:00",
-    "name": "Lunch",
-    "description": "Enjoy your meal",
-    "labels": [5],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 109,
-    "onDay": 2,
-    "startTime": "14:45",
-    "endTime": "15:45",
-    "name": "Stream Session in the field",
-    "description": "Lets talk on fresh air.",
-    "labels": [1],
-    "stream": null,
-    "room": 7,
-    "presenters": [13]
-  },{
-    "id": 110,
-    "onDay": 2,
-    "startTime": "15:45",
-    "endTime": "16:00",
-    "name": "Coffee break",
-    "description": "Opportunity to wake up and do some networking",
-    "labels": [5, 2],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 116,
-    "onDay": 2,
-    "startTime": "18:00",
-    "endTime": "18:30",
-    "name": "Break",
-    "description": "",
-    "labels": [2],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 117,
-    "onDay": 2,
-    "startTime": "18:30",
-    "endTime": "20:00",
-    "name": "Dinner",
-    "description": "Enjoy your meal",
-    "labels": [5],
-    "stream": null,
-    "room": null,
-    "presenters": []
+    "presenters": [1]
   },
-
 
 
 
@@ -240,77 +73,7 @@
     "labels": [1],
     "stream": null,
     "room": 1,
-    "presenters": [11]
-  },{
-    "id": 204,
-    "onDay": 3,
-    "startTime": "9:30",
-    "endTime": "10:30",
-    "name": "Stream results 1-3",
-    "description": "Description for 'Stream results 1-3'",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [13]
-  },{
-    "id": 205,
-    "onDay": 3,
-    "startTime": "10:30",
-    "endTime": "10:45",
-    "name": "Coffee break",
-    "description": "Opportunity to wake up and do some networking",
-    "labels": [5, 2],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  },{
-    "id": 206,
-    "onDay": 3,
-    "startTime": "10:45",
-    "endTime": "11:45",
-    "name": "Stream results 4-6",
-    "description": "Description for 'Stream results 4-6'",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [13]
-  },{
-    "id": 207,
-    "onDay": 3,
-    "startTime": "11:45",
-    "endTime": "12:30",
-    "name": "Feedback and Closing of Summit",
-    "description": "Raise your voice to comment on the last 20 hours and tell the crowd how you will act in the future to innovate and get visible",
-    "labels": [1],
-    "stream": null,
-    "room": 1,
-    "presenters": [11]
-  },{
-    "id": 208,
-    "onDay": 3,
-    "startTime": "12:30",
-    "endTime": "13:30",
-    "name": "Lunch",
-    "description": "Enjoy your meal",
-    "labels": [5],
-    "stream": null,
-    "room": null,
-    "presenters": []
-  }],
-
-
-  "sessions":[{
-    "id": 1,
-    "name": "undefined",
-    "room": "undefined",
-    "description": "udefined",
-    "presenters": []
-  },{
-    "id": 2,
-    "name":"undefined",
-    "room": "undefined",
-    "description": "udefined",
-    "presenters": []
+    "presenters": [1]
   }],
 
 
@@ -333,200 +96,23 @@
 
   "streams": [{
     "id": 1,
-    "name": "Web Innovation",
-    "hashtag": "webinnovation",
-    "room": 4,
-    "leaders": [1],
-    "description": "The web develops faster than ever. Web browsers are becoming great platforms full of new APIs which bring brand new opportunities to offer to our customers. Imagine an application runs in a web browser and is capable of working offline and synchronizing its state once online. Imagine the application behaves on your mobile as if it were a native app: you can add it to your home screen and you get push notifications. Imagine you can build reusable, browser native UI components you can share across your organization or even across the whole web world. And this is just the beginning.",
-    "downloadFile": "file.pdf"
-  }, {
-    "id": 2,
-    "name": "IT orchestration for hybrid clouds",
-    "hashtag": "enterprisecloud",
+    "name": "<please enter the stream name in events.json>",
+    "hashtag": "capgemini",
     "room": 1,
-    "leaders": [6, 7],
-    "description": "IT orchestration with hybrid cloud solutions will be the focus of our business, combined with IPaaS, Capgemini’s future platform to develop, execute and manage integration, our Cloud Choice offering for E2E solutions (Advise, Align Animate) and our tools for SW-Automation with DevOps, Microservices and automated provisioning.",
-    "downloadFile": "file.pdf"
-  }, {
-    "id": 3,
-    "name": "Engineering and digital security",
-    "hashtag": "itsecurity",
-    "room": 2,
-    "leaders": [2, 3],
-    "description": "Prevent – Protect - Detect – Monitor. How to identify threats and find the right measures to improve security. Cybersecurity is a necessary ingredients of the digitalization. Only the trustable service will be successful. We want to define aspects in architecture and methods, where we can make a difference in security and generate a vision for our future security model.",
-    "downloadFile": "file.pdf"
-  }, {
-    "id": 4,
-    "name": "Let‘s Become an Architects‘ Company",
-    "hashtag": "itarchitecture",
-    "room": 3,
-    "leaders": [4, 5],
-    "description": "Let‘s Become an Architects‘ Company! Digital transformation, Agile & DevOps, Rightshoring and Industrialization – what shapes the architects’ way they work and the architects’ company of tomorrow? Career model, certifications, trainings, roles in ACCESS – the journey already started … We create the vision for Capgemini as a company of architecture excellence!",
-    "downloadFile": "file.pdf"
-  }, {
-    "id": 5,
-    "name": "Transforming Business for Digital",
-    "hashtag": "digitalization",
-    "room": 5,
-    "leaders": [7, 8],
-    "image": "/images/transform.jpg",
-    "downloadFile": "file.pdf"
-  }, {
-    "id": 6,
-    "name": "Industrial IoT",
-    "hashtag": "IoT",
-    "room": 6,
-    "leaders": [9, 10],
-    "description": "IoT revolutionizes the way enterprises operate their business. Smart machines requesting maintenance the best point in time, buildings optimizing conditions like climate, temperature and other themselves, cars reserving parking places are but a few examples. We consider new IT concepts and architectures to enable powerful IoT platforms like digital twins, different types of connectivity, event processing and machine learning. We discuss the challenges in architecting and developing IoT solutions with regard to build, deploy and test.",
+    "leaders": [1],
+    "description": "<please enter the stream description in events.json>",
     "downloadFile": "file.pdf"
   }],
   "rooms": [{
     "id": 1,
-    "name": "Rhein Main"
-  }, {
-    "id": 2,
-    "name": "Schönefeld 1"
-  }, {
-    "id": 3,
-    "name": "Schönefeld 2"
-  }, {
-    "id": 4,
-    "name": "Tempelhof 1"
-  }, {
-    "id": 5,
-    "name": "Tempelhof 2"
-  }, {
-    "id": 6,
-    "name": "Echterdingen"
-  }, {
-    "id": 7,
-    "name": "Country side"
+    "name": "<please enter the room name in events.js>"
   }],
   "persons": [{
     "id": 1,
-    "name": "Marek Matczak",
+    "name": "<please enter the speaker name in events.js>",
     "picture": "speaker.png",
     "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 2,
-    "name": "Michael Köhler",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 3,
-    "name": "Marek Puchalski",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 4,
-    "name": "Thilo Hermann",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 5,
-    "name": "Andreas Hess",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 6,
-    "name": "Marius Vöhringer",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 7,
-    "name": "Gerd Pews",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 8,
-    "name": "Christian Hinken",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 9,
-    "name": "Rüdiger Eberlein",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 10,
-    "name": "Robert Geisler",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 11,
-    "name": "Marco Rose",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 12,
-    "name": "Alan Spittle",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 13,
-    "name": "Streamleads",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 14,
-    "name": "Thomas Heimann",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 15,
-    "name": "Tae Ho Shin",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 16,
-    "name": "Roland Fiege",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 17,
-    "name": "Iwan van der Kleijn",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
-    }
-  }, {
-    "id": 18,
-    "name": "Uwe Hantzsche",
-    "picture": "speaker.png",
-    "desc": {
-      "position" : "<position>"
+      "position" : "<enter the position of the speaker in events.json>"
     }
   }]
 }
